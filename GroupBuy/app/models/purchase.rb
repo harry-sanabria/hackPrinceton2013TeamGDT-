@@ -7,12 +7,8 @@ class Purchase < ActiveRecord::Base
   validates :deadline, presence: true
   attr_accessible :title, :description, :min_price, :deadline, :invited_group, :current_total_price
 
-  def how_much_due(user_payment)
-    total = 0
-    for payment in self.payments
-      total += payment.part
-    end
-    return (self.price.to_f*(user_payment.part.to_f/total)).round(2)
+  def get_remaining_price()
+    return min(0, self.min_price - self.current_total_price)
   end
 
   def get_current_user_payment(current_user)

@@ -52,16 +52,6 @@ class PurchasesController < ApplicationController
         payment.purchase_id = @purchase.id
         payment.save
 
-
-        # for user_id in params[:purchase][:user_ids]
-        #   if user_id != ""
-        #     payment = Payment.new()
-        #     payment.user_id = user_id
-        #     payment.purchase_id = @purchase.id
-        #     payment.save
-        #   end
-        # end
-
         format.html { redirect_to @purchase, notice: 'Purchase was successfully created.' }
         format.json { render action: 'show', status: :created, location: @purchase }
       else
