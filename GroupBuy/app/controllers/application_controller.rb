@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
   # Sets the current_user variable
   private
   def current_user
-    @current_user ||= User.find(session[:user_id]) if session[:user_id]
+    @current_user ||= User.find_by_id(session[:user_id]) if session[:user_id]
   end
 
   # Checks to see if a user has logged in, if not, restrict access by redirecting

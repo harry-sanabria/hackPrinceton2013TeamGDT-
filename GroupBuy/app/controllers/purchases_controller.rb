@@ -13,11 +13,11 @@ class PurchasesController < ApplicationController
   # GET /purchases/1.json
   def show
     # Prevents unauthorized access by other users
-    if !current_user.purchases.where(:id => @purchase.id).any?
-      flash[:notice] = "You don't have permission to view that page!"
-      redirect_to current_user
-      return
-    end
+    # if !current_user.purchases.where(:id => @purchase.id).any?
+    #   flash[:notice] = "You don't have permission to view that page!"
+    #   redirect_to current_user
+    #   return
+    # end
     @users= @purchase.users
 
     # Add user that has made it to the page
@@ -47,11 +47,7 @@ class PurchasesController < ApplicationController
 
     respond_to do |format|
       if @purchase.save
-        payment = Payment.new()
-        payment.user_id = current_user.id
-        payment.purchase_id = @purchase.id
-        payment.save
-
+        #puts "asgl;adskhfl;khgalds;khfsda;HIHIHIHIHIHIHIHIHI"
         format.html { redirect_to @purchase, notice: 'Purchase was successfully created.' }
         format.json { render action: 'show', status: :created, location: @purchase }
       else
@@ -106,19 +102,22 @@ class PurchasesController < ApplicationController
     #   redirect_to current_user
     #   return
     # end
+    @purchase = Purchase.find(params[:id])
 
     respond_to do |format|
       payment = Payment.new()
-      payment.user_id = current_user.id
       payment.purchase_id = params[:id]
-      payment.description = params[:description]
-      # puts "\n\n\n\n=========",params[:description],"=============="
+      payment.user_id = current_user.id
       payment.price = params[:price]
+      payment.description = params[:description]
       payment.save
 
-      format.html { redirect_to root_url, notice: 'Purchase was successfully created.' }
+      # update current total price for this payment
+      @purchase.update_current_total_price(payment)
+
+      format.html { redirect_to @purchase, notice: 'Successfully joined purchase!' }
       format.json { render action: 'show', status: :created, location: @purchase }
-    end
+     end
   end
 
   private

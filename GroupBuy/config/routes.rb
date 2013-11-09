@@ -1,6 +1,4 @@
 GroupBuy::Application.routes.draw do
-  get "venmo/get_token/:code" => "venmo#get_token", :as => "venmo_get_token"
-  post "venmo/charge/:code" => "venmo#charge", :as => "venmo_charge"
   get ":controller/:action", controller: /venmo/
   get "sessions/new"
   get "log_in" => "sessions#new", :as => "log_in"
@@ -15,6 +13,7 @@ GroupBuy::Application.routes.draw do
   resources :sessions
     
   resources :purchases
+  put '/purchases/:id/show', to: 'purchases#join_purchase', as: 'join_purchase'
 
 
   # The priority is based upon order of creation: first created -> highest priority.
