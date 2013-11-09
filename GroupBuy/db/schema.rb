@@ -13,6 +13,14 @@
 
 ActiveRecord::Schema.define(version: 20131109072626) do
 
+  create_table "purchases", force: true do |t|
+    t.string   "title"
+    t.decimal  "price"
+    t.string   "invited_group"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "users", force: true do |t|
     t.string   "username"
     t.string   "name"
