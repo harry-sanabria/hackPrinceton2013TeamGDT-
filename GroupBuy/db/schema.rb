@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131109195151) do
+ActiveRecord::Schema.define(version: 20131109223721) do
 
   create_table "payments", force: true do |t|
     t.integer  "user_id"
@@ -31,6 +31,7 @@ ActiveRecord::Schema.define(version: 20131109195151) do
     t.text     "deadline"
     t.decimal  "min_price"
     t.decimal  "current_total_price"
+    t.integer  "user_id"
   end
 
   create_table "users", force: true do |t|

@@ -59,5 +59,10 @@
   	<strong>You owe:</strong>
     <%= "$#{@purchase.get_current_user_payment(current_user).price}" %>
   </p>
+<% end %>
 
+<% if current_user.id == @purchase.user_id%>
+  <h1>This is a magical link.</h1>
+
+  <%= link_to "Confirm Purchase", "/venmo/charge?purchase_id=#{@purchase.id}"%>
 <% end %>
