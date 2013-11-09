@@ -23,10 +23,7 @@
     <%= f.number_field :price, :min => 0 %>
   </div>
   <div>
-    <input type="hidden" id="total_other_parts"  value=<%=@purchase.get_total_parts_except_user(current_user)%> />
-  <div>
-  <div>
-    <%= f.label "How many parts of the whole will you pay for?" %><br>
+    <%= f.label "How much will your part cost?" %><br>
     <%= number_field_tag "user_parts", @purchase.get_current_user_payment(current_user).part, :min => 1, :html => {:id => "user_parts"} %>
     <p id="amount_to_pay"> You pay: <%= "$#{@purchase.how_much_due(@purchase.get_current_user_payment(current_user))}" %> </p>
   </div>

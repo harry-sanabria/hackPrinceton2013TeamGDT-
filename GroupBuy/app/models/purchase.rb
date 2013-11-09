@@ -22,14 +22,4 @@ class Purchase < ActiveRecord::Base
     end
     return user_payment
   end
-
-  def get_total_parts_except_user(current_user)
-    total = 0
-    for payment in self.payments
-      if payment.user.id != current_user.id
-        total += payment.part
-      end
-    end
-    return total
-  end
 end

@@ -1,4 +1,3 @@
-<!--created by Harry Sanabria (sanabria@mit.edu)-->
 <%= form_for(@purchase) do |f| %>
   <% if @purchase.errors.any? %>
     <div id="error_explanation">
@@ -17,16 +16,21 @@
     <%= f.text_field :title %>
   </div>
   <div class="field">
+    <%= f.label :description %><br>
+    <%= f.text_field :description %>
+  </div>
+  <div class="field">
     <%= f.label :price %><br>
     <%= f.number_field :price, :min => 0 %>
   </div>
   <div class="field">
+    <%= f.label :deadline %><br>
+    <%= f.text_field :deadline %>
+  </div>
+  <div class="field">
     <%= f.hidden_field :id %>
   </div>
-  <div>
-    <%= f.label "Select people to pay with: (CTRL-click to select more than one)" %>
-    <%= f.collection_select :user_ids, User.order(:username)-[current_user], :id, :username, {:required => true}, :multiple => true %>
-  </div>
+
   <div class="actions">
     <%= f.submit %>
   </div>
