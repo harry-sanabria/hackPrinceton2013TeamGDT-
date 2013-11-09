@@ -1,0 +1,31 @@
+<!--created by Yihua (liyihua@mit.edu) and Harry (sanabria@mit.edu)-->
+
+<% provide(:title, 'Your Purchases') %>
+
+<h4>You have <%= pluralize(@purchases.count, "purchase") %></h4>
+
+<%= button_to "Create a New Purchase", new_purchase_path, :method=>:get,:class => "btn btn-primary"%>
+
+<table border="1">
+	<thead>
+		<tr>
+			<th>Title</th><th>Cost</th><th>You owe</th><th></th><th></th><th></th>
+		</tr>
+	</thead>
+
+	<tbody>
+		<% @purchases.each do |purchase| %>
+		<tr>
+
+			<td><%= link_to "#{purchase.title}", purchase %></td>
+			<td><%= "$#{purchase.price}" %></td>
+			<td><%= "$#{purchase.how_much_due(purchase.get_current_user_payment(current_user))}" %></td>
+			<td><%= link_to 'Edit', edit_purchase_path(purchase) %></td>
+                        <td><%= link_to 'Add Users', purchase_add_users_path(purchase) %></td>
+			<td><%= link_to 'Destroy', purchase, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+		</tr>
+		<% end %>
+	</tbody>
+</table>
+
+<br>

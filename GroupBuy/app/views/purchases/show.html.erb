@@ -1,0 +1,48 @@
+<!--created by Yihua (liyihua@mit.edu) and Harry (sanabria@mit.edu)-->
+
+<% provide(:title, 'Purchase') %>
+
+<%= link_to 'Add users to this purchase', purchase_add_users_path(@purchase) %> |
+<%= link_to 'Edit how much you pay', edit_purchase_path(@purchase) %> <br>
+
+<p>
+	<strong>Purchase:</strong>
+	<%= @purchase.title %>
+</p>
+
+<p>
+	<strong>Total price:</strong>
+	<%= "$#{@purchase.price}" %>
+</p>
+
+<p>
+	<strong>Parts you pay for:</strong>
+	<%= @purchase.get_current_user_payment(current_user).part %>
+</p>
+
+<p>
+	<strong>You owe:</strong>
+	<%= "$#{@purchase.how_much_due(@purchase.get_current_user_payment(current_user))}" %>
+</p>
+
+<table border="1">
+    <thead>
+      <tr>
+        <th>Person</th><th>Parts they pay for</th><th>How much they owe</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @purchase.payments.each do |payment| %>
+        <% if payment.user_id != current_user.id %>
+          <tr>
+            <td><%= payment.user.name %></td>
+            <td><%= payment.part %></td>
+            <td><%= "$#{@purchase.how_much_due(payment)}" %></td><br>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+
+
+
