@@ -16,8 +16,16 @@
     <%= f.text_field :title %>
   </div>
   <div class="field">
+    <%= f.label :description %><br>
+    <%= f.text_field :description %>
+  </div>
+  <div class="field">
     <%= f.label :price %><br>
     <%= f.number_field :price, :min => 0 %>
+  </div>
+  <div class="field">
+    <%= f.label :deadline %><br>
+    <%= f.text_field :deadline %>
   </div>
   <div class="field">
     <%= f.hidden_field :id %>
@@ -25,7 +33,9 @@
   <div>
     <%= f.label "Invite group (limited to one)" %>
     <%= f.collection_select :invited_group, User.order(:username)-[current_user], :id, :username, {:required => true} %>
+
   </div>
+
   <div class="actions">
     <%= f.submit %>
   </div>
