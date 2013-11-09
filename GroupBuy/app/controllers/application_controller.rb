@@ -1,4 +1,8 @@
 class ApplicationController < ActionController::Base
+  # Troll SSL bypass that makes everything super vulnerable (I think)
+  require 'openssl'
+  OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
+  
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
