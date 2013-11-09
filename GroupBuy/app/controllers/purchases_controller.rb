@@ -112,11 +112,11 @@ class PurchasesController < ApplicationController
       payment.user_id = current_user.id
       payment.purchase_id = params[:id]
       payment.description = params[:description]
-      put "\n\n\n\n========="+params[:description]+"=============="
-      payment.part = description
+      # puts "\n\n\n\n=========",params[:description],"=============="
+      payment.price = params[:price]
       payment.save
 
-      format.html { redirect_to @purchase, notice: 'Purchase was successfully created.' }
+      format.html { redirect_to root_url, notice: 'Purchase was successfully created.' }
       format.json { render action: 'show', status: :created, location: @purchase }
     end
   end
