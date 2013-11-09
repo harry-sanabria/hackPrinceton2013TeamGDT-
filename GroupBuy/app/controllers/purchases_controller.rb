@@ -43,6 +43,7 @@ class PurchasesController < ApplicationController
   # POST /purchases.json
   def create
     @purchase = Purchase.new(purchase_params)
+    @purchase.current_total_price = 0
 
     respond_to do |format|
       if @purchase.save
@@ -114,6 +115,6 @@ class PurchasesController < ApplicationController
     end
 
     def purchase_params
-      params.require(:purchase).permit(:title, :price, :invited_group, :description, :deadline)
+      params.require(:purchase).permit(:title, :min_price, :invited_group, :description, :deadline)
     end
 end

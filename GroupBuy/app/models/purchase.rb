@@ -2,9 +2,10 @@ class Purchase < ActiveRecord::Base
   has_many :payments, dependent: :destroy
   has_many :users, :through => :payments
   validates :title, presence: true
-  validates :price, presence: true, :numericality => {:greater_than => 0}
+  validates :min_price, presence: true, :numericality => {:greater_than => 0}
+  validates :current_total_price, presence: true, :numericality => {:greater_than => 0}
   validates :deadline, presence: true
-  attr_accessible :title, :description, :price, :deadline, :invited_group
+  attr_accessible :title, :description, :min_price, :deadline, :invited_group, :current_total_price
   
   def how_much_due(user_payment)
     total = 0
