@@ -1,4 +1,6 @@
 class VenmoController < ApplicationController
+  before_action :login_required
+  
   require 'net/http'
   
   private
