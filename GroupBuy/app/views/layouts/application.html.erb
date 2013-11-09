@@ -7,8 +7,7 @@
     Logged in as <%= current_user.username %>. | 
     <%= link_to "Log out", log_out_path %>
   <% else %>
-    <%= link_to "Sign up", sign_up_path %> or 
-    <%= link_to "Log in", root_url %>
+    <%= link_to "Sign in with Facebook", "/auth/facebook", id: "sign_out" %> or 
   <% end %>
 </div>
 
