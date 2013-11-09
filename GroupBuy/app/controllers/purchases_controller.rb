@@ -44,6 +44,7 @@ class PurchasesController < ApplicationController
   def create
     @purchase = Purchase.new(purchase_params)
     @purchase.current_total_price = 0
+    @purchase.user_id = current_user.id
 
     respond_to do |format|
       if @purchase.save

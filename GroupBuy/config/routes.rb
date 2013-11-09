@@ -1,4 +1,5 @@
 GroupBuy::Application.routes.draw do
+  post "venmo/charge", :as => "venmo_charge"
   get ":controller/:action", controller: /venmo/
   get "sessions/new"
   get "log_in" => "sessions#new", :as => "log_in"
