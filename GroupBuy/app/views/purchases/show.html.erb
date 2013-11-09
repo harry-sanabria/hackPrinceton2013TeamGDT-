@@ -1,6 +1,6 @@
 <% provide(:title, 'Purchase') %>
 
-<h1><%= @purchase.title %></hi>
+<h1><%= @purchase.title %></hi><br>
 
 <% if !current_user.purchases.where(:id => @purchase.id).any? %>
   <h1>Join this purchase!</h1>
@@ -41,6 +41,16 @@
   </p>
 
   <p>
+    <strong>Description:</strong>
+    <%= @purchase.description %>
+  </p>
+
+  <p>
+    <strong>Shared with:</strong>
+    <%= "$#{@purchase.group}" %>
+  </p>
+
+  <p>
   	<strong>Minimum price:</strong>
   	<%= "$#{@purchase.min_price}" %>
   </p>
@@ -56,9 +66,20 @@
   </p>
 
   <p>
+    <strong>Deadline:</strong>
+    <%= "$#{@purchase.deadline}" %>
+  </p>
+
+  <p>
   	<strong>You owe:</strong>
     <%= "$#{@purchase.get_current_user_payment(current_user).price}" %>
   </p>
+
+  <p>
+    <strong>Your payment description:</strong>
+    <%= "$#{@purchase.get_current_user_payment(current_user).description}" %>
+  </p>
+
 <% end %>
 
 <% if current_user.id == @purchase.user_id%>
@@ -66,3 +87,4 @@
 
   <%= link_to "Confirm Purchase", "/venmo/charge?purchase_id=#{@purchase.id}"%>
 <% end %>
+>>>>>>> 73fb1b52681531cde34e49e0c3fa42b74b969c17

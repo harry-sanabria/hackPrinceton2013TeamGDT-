@@ -128,6 +128,6 @@ class PurchasesController < ApplicationController
     end
 
     def purchase_params
-      params.require(:purchase).permit(:title, :min_price, :invited_group, :description, :deadline)
+      params.require(:purchase).permit(:title, :min_price, :group, :description, :deadline)
     end
 end
