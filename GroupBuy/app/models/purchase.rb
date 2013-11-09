@@ -3,7 +3,7 @@ class Purchase < ActiveRecord::Base
   has_many :users, :through => :payments
   validates :title, presence: true
   validates :min_price, presence: true, :numericality => {:greater_than => 0}
-  validates :current_total_price, presence: true, :numericality => {:greater_than => 0}
+  validates :current_total_price, presence: true, :numericality => {:greater_than_or_equal_to => 0}
   validates :deadline, presence: true
   attr_accessible :title, :description, :min_price, :deadline, :invited_group, :current_total_price
 
