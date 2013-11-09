@@ -1,8 +1,5 @@
 <% if current_user %>
 	<h3> You are alreapy logged in as <%= current_user.username %>. </h3>
 	<%= link_to 'Return to your profile.', current_user %>
-<% else %>
-	<h3>Log in</h3>
-	<%= render 'form' %>
 <% end %>
 

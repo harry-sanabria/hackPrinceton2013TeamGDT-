@@ -7,9 +7,9 @@ class SessionsController < ApplicationController
     if user
       current_user = user
       session[:user_id] = user.id
-      redirect_to current_user, :notice => "Logged in!"
+      redirect_to current_user
     else
-      flash.now.alert = "Invalid name or password"
+      flash.now.alert = "Invalid login"
       render "new"
     end
   end
@@ -22,7 +22,7 @@ class SessionsController < ApplicationController
   end
 
   def logged_in
-    redirect_to root_url, :notice => "Logged in with facebook"
+    redirect_to current_user, :notice => "Logged in with facebook"
   end
 
 end
