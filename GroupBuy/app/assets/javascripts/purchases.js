@@ -9,13 +9,12 @@ $(function() {
     facebook_token = (document.getElementById("facebook_token").value)
     var groups = new Array();
     FB.api('/me/groups', {access_token: facebook_token}, function(response) {
-      alert(JSON.stringify(response));
-      groupObjs = eval(reponse)
+      groupObjs = eval(response)["data"];
       for (var i=0; i<groupObjs.length; i++) {
-        groups.push('<option value="'+ groupObjs[i].id +'">'+ groupObjs[i].name +'</option>');
+        groups.push('<option value="'+ groupObjs[i]["id"] +'">'+ groupObjs[i]["name"] +'</option>');
       }
+      $("#group_select").html(groups.join(''));
     });
-    $("#group_select").html(groups.join(''));
- 
+     
   });
 });
