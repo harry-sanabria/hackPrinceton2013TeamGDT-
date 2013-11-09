@@ -47,12 +47,12 @@ class PurchasesController < ApplicationController
 
     respond_to do |format|
       if @purchase.save
-        payment = Payment.new()
-        payment.user_id = current_user.id
-        payment.purchase_id = @purchase.id
-        payment.save
+        # payment = Payment.new()
+        # payment.user_id = current_user.id
+        # payment.purchase_id = @purchase.id
+        # payment.save
 
-        format.html { redirect_to @purchase, notice: 'Purchase was successfully created.' }
+        format.html { render action: 'join_purchase', notice: 'Purchase was successfully created.' }
         format.json { render action: 'show', status: :created, location: @purchase }
       else
         format.html { render action: 'new' }
