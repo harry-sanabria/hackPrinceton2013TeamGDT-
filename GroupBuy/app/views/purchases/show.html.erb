@@ -41,6 +41,16 @@
   </p>
 
   <p>
+    <strong>Description:</strong>
+    <%= @purchase.description %>
+  </p>
+
+  <p>
+    <strong>Shared with:</strong>
+    <%= "$#{@purchase.group}" %>
+  </p>
+
+  <p>
   	<strong>Minimum price:</strong>
   	<%= "$#{@purchase.min_price}" %>
   </p>
@@ -56,13 +66,18 @@
   </p>
 
   <p>
+    <strong>Deadline:</strong>
+    <%= "$#{@purchase.deadline}" %>
+  </p>
+
+  <p>
   	<strong>You owe:</strong>
     <%= "$#{@purchase.get_current_user_payment(current_user).price}" %>
   </p>
-  
+
   <p>
     <strong>Your payment description:</strong>
-    <%= "$#{@purchase.description}" %>
+    <%= "$#{@purchase.get_current_user_payment(current_user).description}" %>
   </p>
 
 <% end %>
