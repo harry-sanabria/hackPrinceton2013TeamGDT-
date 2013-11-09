@@ -55,17 +55,17 @@ class VenmoController < ApplicationController
   end
   
   def charge    
-    purchase = params[:purchase]
+    purchase = Purchase.find_by_id(params[:purchase_id])
     
     url = URI.parse("https://api.venmo.com/payments")
     token = get_token(current_user.venmo_code)
     errors = 0
-    for user_id in purchase.payments
+    for user_id, price in purchase.payments
       post_args = {
         'access_token' => token,
-        'user_id' => get_userid(User.find_by_id(payments.user_id).venmo_code),
+        'user_id' => get_userid(User.find_by_id(user_id).venmo_code),
         'note' => "#{current_user.venmo_username} has charged you for #{purchase.title}",
-        'amount' => '%.2f' % (1.0 * payments.price / purchase.current_total_price),
+        'amount' => '%.2f' % (1.0 * price / purchase.current_total_price),
         'audience' => 'private'
       }
       
