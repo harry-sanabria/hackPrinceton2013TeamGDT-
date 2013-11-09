@@ -1,13 +1,16 @@
 GroupBuy::Application.routes.draw do
+  get "venmo/confirm"
+  post "venmo/charge/:code" => "venmo#charge", :as => "venmo_charge"
+  get ":venmo(/index)" => "venmo#index"
   get "sessions/new"
-  get "sign_up" => "users#new", :as => "sign_up"
   get "log_in" => "sessions#new", :as => "log_in"
   get "log_out" => "sessions#destroy", :as => "log_out"
+  match 'auth/:provider/callback', to: 'sessions#create', via: [:get]
   match "/auth/facebook/callback", to: "sessions#logged_in", via: [:get]
   
   root :to => "sessions#new"
 
-  resources :users
+  resources :users, only: [:show]
   resources :sessions
     
   resources :purchases
