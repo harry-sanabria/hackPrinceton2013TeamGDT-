@@ -105,32 +105,6 @@ class PurchasesController < ApplicationController
     end
   end
 
-  def add_users
-  end
-
-  # PATCH/PUT /purchases/1/add_user
-  def update_to_add_users
-    # Prevents unauthorized access by other users
-    if !current_user.purchases.where(:id => @purchase.id).any?
-      flash[:notice] = "You don't have permission to view that page!"
-      redirect_to current_user
-      return
-    end
-    respond_to do |format|
-      for user_id in params[:purchase][:user_ids]
-        if user_id != ""
-          payment = Payment.new()
-          payment.user_id = user_id
-          payment.purchase_id = @purchase.id
-          payment.save
-        end
-      end
-
-      format.html { redirect_to @purchase, notice: 'Purchase was successfully created.' }
-      format.json { render action: 'show', status: :created, location: @purchase }
-    end
-  end
-
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_purchase

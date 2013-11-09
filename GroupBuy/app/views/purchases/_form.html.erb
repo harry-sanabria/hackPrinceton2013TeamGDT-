@@ -1,4 +1,3 @@
-<!--created by Harry Sanabria (sanabria@mit.edu)-->
 <%= form_for(@purchase) do |f| %>
   <% if @purchase.errors.any? %>
     <div id="error_explanation">
@@ -24,8 +23,8 @@
     <%= f.hidden_field :id %>
   </div>
   <div>
-    <%= f.label "Select people to pay with: (CTRL-click to select more than one)" %>
-    <%= f.collection_select :user_ids, User.order(:username)-[current_user], :id, :username, {:required => true}, :multiple => true %>
+    <%= f.label "Invite group (limited to one)" %>
+    <%= f.collection_select :invited_group, User.order(:username)-[current_user], :id, :username, {:required => true} %>
   </div>
   <div class="actions">
     <%= f.submit %>

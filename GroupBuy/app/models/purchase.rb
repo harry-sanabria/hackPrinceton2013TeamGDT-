@@ -3,7 +3,7 @@ class Purchase < ActiveRecord::Base
   has_many :users, :through => :payments
   validates :title, presence: true
   validates :price, presence: true, :numericality => {:greater_than => 0}
-  attr_accessible :title, :price
+  attr_accessible :title, :price, :invited_group
 
   def how_much_due(user_payment)
     total = 0
