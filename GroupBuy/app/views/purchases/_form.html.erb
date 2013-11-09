@@ -32,9 +32,11 @@
     <%= f.hidden_field :id %>
   </div>
   <div>
-    <%= f.label "Invite group (limited to one)" %>
-    <%= f.collection_select :invited_group, User.order(:username)-[current_user], :id, :username, {:required => true} %>
-
+    <input type="hidden", id="facebook_id", value=<%=current_user.uid%>>
+  </div>
+  <div class="field">
+    <select id="group_select">
+    </select>
   </div>
 
   <div class="actions">
