@@ -43,6 +43,7 @@ class PurchasesController < ApplicationController
   # POST /purchases.json
   def create
     @purchase = Purchase.new(purchase_params)
+    @purchase.current_total_price = 0
 
     respond_to do |format|
       if @purchase.save
@@ -50,16 +51,6 @@ class PurchasesController < ApplicationController
         payment.user_id = current_user.id
         payment.purchase_id = @purchase.id
         payment.save
-
-
-        # for user_id in params[:purchase][:user_ids]
-        #   if user_id != ""
-        #     payment = Payment.new()
-        #     payment.user_id = user_id
-        #     payment.purchase_id = @purchase.id
-        #     payment.save
-        #   end
-        # end
 
         format.html { redirect_to @purchase, notice: 'Purchase was successfully created.' }
         format.json { render action: 'show', status: :created, location: @purchase }
@@ -107,6 +98,29 @@ class PurchasesController < ApplicationController
     end
   end
 
+  # PATCH/PUT /purchases/1/join_purchase
+  def join_purchase
+    # Prevents unauthorized access by other users
+    # if !current_user.purchases.where(:id => @purchase.id).any?
+    #   flash[:notice] = "You don't have permission to view that page!"
+    #   redirect_to current_user
+    #   return
+    # end
+
+    respond_to do |format|
+      payment = Payment.new()
+      payment.user_id = current_user.id
+      payment.purchase_id = params[:id]
+      payment.description = params[:description]
+      # puts "\n\n\n\n=========",params[:description],"=============="
+      payment.price = params[:price]
+      payment.save
+
+      format.html { redirect_to root_url, notice: 'Purchase was successfully created.' }
+      format.json { render action: 'show', status: :created, location: @purchase }
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_purchase
@@ -114,6 +128,6 @@ class PurchasesController < ApplicationController
     end
 
     def purchase_params
-      params.require(:purchase).permit(:title, :price, :invited_group, :description, :deadline)
+      params.require(:purchase).permit(:title, :min_price, :invited_group, :description, :deadline)
     end
 end

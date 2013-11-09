@@ -11,24 +11,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131109100704) do
+ActiveRecord::Schema.define(version: 20131109195151) do
 
   create_table "payments", force: true do |t|
     t.integer  "user_id"
-    t.integer  "payment_id"
-    t.integer  "part"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "purchase_id"
+    t.decimal  "price"
+    t.text     "description"
   end
 
   create_table "purchases", force: true do |t|
     t.string   "title"
-    t.decimal  "price"
     t.string   "invited_group"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "description"
     t.text     "deadline"
+    t.decimal  "min_price"
+    t.decimal  "current_total_price"
   end
 
   create_table "users", force: true do |t|
