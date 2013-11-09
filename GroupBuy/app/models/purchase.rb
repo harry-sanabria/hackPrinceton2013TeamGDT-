@@ -5,7 +5,7 @@ class Purchase < ActiveRecord::Base
   validates :price, presence: true, :numericality => {:greater_than => 0}
   validates :deadline, presence: true
   attr_accessible :title, :description, :price, :deadline, :invited_group
-
+  
   def how_much_due(user_payment)
     total = 0
     for payment in self.payments
