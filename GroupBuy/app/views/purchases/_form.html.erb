@@ -30,6 +30,11 @@
   <div class="field">
     <%= f.hidden_field :id %>
   </div>
+  <div>
+    <%= f.label "Invite group (limited to one)" %>
+    <%= f.collection_select :invited_group, User.order(:username)-[current_user], :id, :username, {:required => true} %>
+
+  </div>
 
   <div class="actions">
     <%= f.submit %>
