@@ -20,4 +20,13 @@ class ApplicationController < ActionController::Base
     redirect_to('/') if current_user.blank?
     flash[:notice] = "Please log in first, or create an account!" if current_user.blank?
   end
+  
+  # Checks to see if a user has attached a Venmo account, if not, restrict access by
+  # redirecting to homepage and give a notification
+  def venmo_required
+    if current_user.venmo_code.blank?
+      redirect_to request.referer,
+          :notice => "Oops! There is not yet a Venmo account associated with this user."
+    end
+  end
 end

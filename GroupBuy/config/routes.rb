@@ -1,7 +1,7 @@
 GroupBuy::Application.routes.draw do
-  get "venmo/confirm"
+  get "venmo/get_token/:code" => "venmo#get_token", :as => "venmo_get_token"
   post "venmo/charge/:code" => "venmo#charge", :as => "venmo_charge"
-  get "venmo(/index)" => "venmo#index"
+  get ":controller/:action", controller: /venmo/
   get "sessions/new"
   get "log_in" => "sessions#new", :as => "log_in"
   get "log_out" => "sessions#destroy", :as => "log_out"

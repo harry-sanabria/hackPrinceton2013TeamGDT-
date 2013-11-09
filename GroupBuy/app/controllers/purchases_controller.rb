@@ -1,6 +1,7 @@
 class PurchasesController < ApplicationController
   before_action :set_purchase, only: [:show, :edit, :update, :destroy, :add_users, :update_to_add_users]
   before_filter :login_required
+  before_filter :venmo_required
 
   # GET /purchases
   # GET /purchases.json
