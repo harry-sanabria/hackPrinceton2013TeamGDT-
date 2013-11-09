@@ -20,6 +20,18 @@ class VenmoController < ApplicationController
     ActiveSupport::JSON.decode(resp.body)['access_token']
   end
   
+  def get_username(code)
+    token = get_token(code)
+    result = Net::HTTP.get(URI.parse("https://api.venmo.com/me?access_token=#{token}"))
+    ActiveSupport::JSON.decode(result)['data']['username']
+  end
+  
+  def get_userid(code)
+    token = get_token(code)
+    result = Net::HTTP.get(URI.parse("https://api.venmo.com/me?access_token=#{token}"))
+    ActiveSupport::JSON.decode(result)['data']['id']
+  end
+  
   public
   def authenticate
     session[:return_to] ||= request.referer
@@ -33,10 +45,7 @@ class VenmoController < ApplicationController
   def save
     if not params[:error]
       current_user.venmo_code = params[:code]
-      token = get_token(params[:code])
-      
-      result = Net::HTTP.get(URI.parse("https://api.venmo.com/me?access_token=#{token}"))
-      current_user.venmo_username = ActiveSupport::JSON.decode(result)['data']['username']
+      current_user.venmo_username = get_username(params[:code])
       current_user.save
       
       redirect_to session.delete(:return_to), notice: "Authentication successful."
@@ -45,27 +54,32 @@ class VenmoController < ApplicationController
     end
   end
   
-  def confirm
-    @code = params[:code]
-  end
-  
   def charge
-    token = venmo_get_token_path(params[:code])
+    token = get_token(params[:code])
 
     url = URI.parse("https://api.venmo.com/payments")
-    post_args = {
-      'access_token' => token,
-      'user_id' => '686225',
-      'note' => 'Foo.',
-      'amount' => '-5',
-      'audience' => 'private'
-    }
-    resp = Net::HTTP.post_form(url, post_args)
-    msg = ActiveSupport::JSON.decode(resp.body)['message']
     
-    puts "THIS IS IMPORTANT!!!! ----> #{@resp.body}"
-    
-    redirect_to root_url, notice: msg
+    purchase = params[:purchase]
+    errors = 0
+    for user_id in purchase.payments
+      post_args = {
+        'access_token' => token,
+        'user_id' => get_userid(User.find_by_id(payments.user_id).venmo_code),
+        'note' => "#{current_user.venmo_username} has charged you for #{purchase.title}",
+        'amount' => '%.2f' % (1.0 * payments.price / purchase.current_total_price),
+        'audience' => 'private'
+      }
+      
+      resp = Net::HTTP.post_form(url, post_args)
+      if not resp.body['error'].blank?
+        errors += 1
+      end
+    end
+    if errors
+      redirect_to root_url, notice: "Confirmation successful, with #{errors} errors..."
+    else
+      redirect_to root_url, notice: "Confirmation successful!"
+    end
   end
   
 end
