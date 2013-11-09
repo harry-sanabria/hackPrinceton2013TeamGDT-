@@ -16,9 +16,10 @@ class SessionsController < ApplicationController
 
   # Logs users out and clears current_user variable
   def destroy
-  	session[:user_id] = nil
-  	current_user = nil
-  	redirect_to root_url, :notice => "Logged out!"
+    puts "\n\n\n\n\n\n\n\n\n\n\n\n\n", "HEEEELLOOOOOOOOOOOOOO", "\n\n\n\n\n\n\n\n\n\n\n"
+    session[:user_id] = nil
+    current_user = nil
+    redirect_to root_url, :notice => "Logged out!"
   end
 
   def logged_in
