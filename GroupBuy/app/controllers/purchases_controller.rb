@@ -115,15 +115,15 @@ class PurchasesController < ApplicationController
     #   redirect_to current_user
     #   return
     # end
+
     respond_to do |format|
-      for user_id in params[:purchase][:user_ids]
-        if user_id != ""
-          payment = Payment.new()
-          payment.user_id = user_id
-          payment.purchase_id = @purchase.id
-          payment.save
-        end
-      end
+      payment = Payment.new()
+      payment.user_id = current_user.id
+      payment.purchase_id = params[:id]
+      payment.description = params[:description]
+      put "\n\n\n\n========="+params[:description]+"=============="
+      payment.part = description
+      payment.save
 
       format.html { redirect_to @purchase, notice: 'Purchase was successfully created.' }
       format.json { render action: 'show', status: :created, location: @purchase }

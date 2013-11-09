@@ -5,6 +5,7 @@ GroupBuy::Application.routes.draw do
   get "sessions/new"
   get "log_in" => "sessions#new", :as => "log_in"
   get "log_out" => "sessions#destroy", :as => "log_out"
+  get "purchases/join_purchase/:id"  => "purchases#join_purchase"
   match 'auth/:provider/callback', to: 'sessions#create', via: [:get]
   match "/auth/facebook/callback", to: "sessions#logged_in", via: [:get]
   
