@@ -13,6 +13,14 @@
 
 ActiveRecord::Schema.define(version: 20131109080738) do
 
+  create_table "payments", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "payment_id"
+    t.integer  "part"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "purchases", force: true do |t|
     t.string   "title"
     t.decimal  "price"
