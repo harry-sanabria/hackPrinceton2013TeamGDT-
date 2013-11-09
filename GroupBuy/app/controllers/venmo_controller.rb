@@ -54,12 +54,11 @@ class VenmoController < ApplicationController
     end
   end
   
-  def charge
-    token = get_token(params[:code])
-
-    url = URI.parse("https://api.venmo.com/payments")
-    
+  def charge    
     purchase = params[:purchase]
+    
+    url = URI.parse("https://api.venmo.com/payments")
+    token = get_token(current_user.venmo_code)
     errors = 0
     for user_id in purchase.payments
       post_args = {
