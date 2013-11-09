@@ -1,19 +1,63 @@
-<!--created by Yihua (liyihua@mit.edu) and Harry (sanabria@mit.edu)-->
-
 <% provide(:title, 'Purchase') %>
 
-<%= link_to 'Edit how much you pay', edit_purchase_path(@purchase) %> <br>
+<h1><%= @purchase.title %></hi>
 
-<p>
-	<strong>Purchase:</strong>
-	<%= @purchase.title %>
-</p>
+<% if !current_user.purchases.where(:id => @purchase.id).any? %>
+  <h1>Join this purchase!</h1>
 
-<p>
-	<strong>Total price:</strong>
-	<%= "$#{@purchase.price}" %>
-</p>
+  <%= form_for(@purchase, :method => :put, :url => join_purchase_path(@purchase)) do |f| %>
+    <% if @purchase.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@purchase.errors.count, "error") %> prohibited this purchase from being saved:</h2>
 
-<p>
-	<strong>You owe:</strong>
-</p>
+        <ul>
+        <% @purchase.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="field">
+      <%= label_tag "Price" %><br>
+      <%= number_field_tag "price", :min => 0 %>
+    </div>
+    <div class="field">
+      <%= label_tag "Description" %><br>
+      <%= text_field_tag "description" %>
+    </div>
+
+    <div class="actions">
+      <%= f.submit %>
+    </div>
+  <% end %>
+
+<% else %>
+  <%= link_to 'Edit how much you pay', edit_purchase_path(@purchase) %> <br>
+
+  <p>
+  	<strong>Purchase:</strong>
+  	<%= @purchase.title %>
+  </p>
+
+  <p>
+  	<strong>Minimum price:</strong>
+  	<%= "$#{@purchase.min_price}" %>
+  </p>
+
+  <p>
+    <strong>Current total price:</strong>
+    <%= "$#{@purchase.current_total_price}" %>
+  </p>
+
+  <p>
+    <strong>Price remaining:</strong>
+    <%= "$#{@purchase.get_remaining_price()}" %>
+  </p>
+
+  <p>
+  	<strong>You owe:</strong>
+    <%= "$#{@purchase.get_current_user_payment(current_user).price}" %>
+  </p>
+
+<% end %>
