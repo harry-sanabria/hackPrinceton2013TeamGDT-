@@ -1,101 +1,89 @@
 <% provide(:title, 'Purchase') %>
+<div class="wrapper">
+  <div class="left">
+    <h1>Purchase Details</h1>
+    <div class="text">
+    	<strong>Title: </strong>
+      <%= @purchase.title %>
+      <br>
+    	<strong>Description: </strong>
+    	<%= @purchase.description %>
+      <br>
+    	<strong>Shared with: </strong>
+    	<%= @purchase.group %>
+      <br>
+    	<strong>Minimum price: </strong>
+    	<%= dollars(@purchase.min_price) %>
+      <br>
+    	<strong>Current total price: </strong>
+    	<%= dollars(@purchase.current_total_price) %>
+      <br>
+    	<strong>Price remaining: </strong>
+    	<%= dollars(@purchase.get_remaining_price()) %>
+      <br>
+    	<strong>Deadline: </strong>
+    	<%= @purchase.deadline %>
+      
+      <hr>
 
-<p>
-	<strong>Title: </strong>
-  	<%= @purchase.title %>
-</p>
-
-<p>
-	<strong>Description: </strong>
-	<%= @purchase.description %>
-</p>
-
-<p>
-	<strong>Shared with: </strong>
-	<%= @purchase.group %>
-</p>
-
-<p>
-	<strong>Minimum price: </strong>
-	<%= dollars(@purchase.min_price) %>
-</p>
-
-<p>
-	<strong>Current total price: </strong>
-	<%= dollars(@purchase.current_total_price) %>
-</p>
-
-<p>
-	<strong>Price remaining: </strong>
-	<%= dollars(@purchase.get_remaining_price()) %>
-</p>
-
-<p>
-	<strong>Deadline: </strong>
-	<%= @purchase.deadline %>
-</p>
-
-<% if !current_user.payments.where(:purchase_id => @purchase.id).any? && @purchase.is_accepting_payments?%>
-  <%= render "join" %>
-
-<% elsif current_user.payments.where(:purchase_id => @purchase.id).any? %>
-  <h2>Contributors</h2>
-  <table border="1">
-    <thead>
-      <tr>
-        <th>User</th>
-        <th>Payment</th>
-      </tr>
-    </thead>
-
-    <tbody>
-      <% @purchase.payments.each do |payment| %>
-      <tr>
-        <td><%= User.find(payment.user_id).name %></td>
-        <td><%= dollars(payment.price) %></td>
-      </tr>
+      <% if current_user.id == @purchase.user_id %>
+        <% if @purchase.is_accepting_payments? %>
+          <%= link_to "Edit the details of this purchase", edit_purchase_path(@purchase) %>
+        <% end %>
+        <% if @purchase.is_minimum_met? %>
+          <hr>
+          <p>Click here to close this purchase to new users.</p>
+          <%= button_to "Close Purchase", close_purchase_path(@purchase) %>
+          <hr>
+        <% elsif @purchase.is_closed? %>
+          <%= button_to "Finalize", finalize_purchase_path(@purchase) %>
+        <% end %>
       <% end %>
-    </tbody>
-  </table>
+    </div>
 
-  <p>
-  	<strong>You owe: </strong>
-    <%= dollars(@purchase.get_current_user_payment(current_user).price) %>
-  </p>
 
-  <p>
-    <strong>Your payment description: </strong>
-    <%= @purchase.get_current_user_payment(current_user).description %>
-  </p>
-  <% if @purchase.is_accepting_payments? %>
-  <p>
-    <%= link_to "Edit how much you pay", purchase_edit_payment_path(@purchase.id) %>
-  </p>
-  <% end %>
-<% end %>
+  </div>
 
-<% if current_user.id == @purchase.user_id %>
-  <% if @purchase.is_accepting_payments? %>
-  <hr>
-  <p>
-    <%= link_to "Edit the details of this purchase", edit_purchase_path(@purchase) %>
-  </p>
-  <% end %>
-  <% if @purchase.is_minimum_met? %>
-  <hr>
-  <p>
-  	Click here to close this purchase to new users.
-  </p>
-  <p>
-    <%= button_to "Close Purchase", close_purchase_path(@purchase) %>
-  </p>
-  <% elsif @purchase.is_closed? %>
-  <hr>
-  <p>
-    <%= button_to "Finalize", finalize_purchase_path(@purchase) %>
-  </p>
-  <% end %>
-<% end %>
+  <div class="right">
+    <% if !current_user.payments.where(:purchase_id => @purchase.id).any? && @purchase.is_accepting_payments?%>
+      <%= render "join" %>
 
-<hr>
-| <%= link_to 'My Purchases', purchases_path %>
+    <% elsif current_user.payments.where(:purchase_id => @purchase.id).any? %>
+      <h1>Your Contribution</h1>
+      <div class="text">
+      	<strong>You owe:</strong>
+        <%= dollars(@purchase.get_current_user_payment(current_user).price) %>
+        <br>     
+        <strong>Your payment description:</strong>
+        <%= @purchase.get_current_user_payment(current_user).description %>
+        <br>      
+        <strong>All contributors to this purchase:</strong>
+        <center>
+          <table border="1">
+            <thead>
+              <tr>
+                <th>User</th>
+                <th>Payment</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <% @purchase.payments.each do |payment| %>
+
+              <tr>
+                <td><%= User.find(payment.user_id).name %></td>
+                <td><%= dollars(payment.price) %></td>
+              </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </center>
+        <br>
+        <% if @purchase.is_accepting_payments? %>
+          <%= link_to "Edit how much you pay", purchase_edit_payment_path(@purchase.id) %>
+        <% end %>
+      </div>
+    <% end %>
+
+  </div>
+</div>

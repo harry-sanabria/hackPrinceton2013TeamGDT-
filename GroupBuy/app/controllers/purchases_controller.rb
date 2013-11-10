@@ -53,7 +53,7 @@ class PurchasesController < ApplicationController
     @purchase.state = 1
     @purchase.current_total_price = 0
     @purchase.user_id = current_user.id
-    @purchase.group = params["selected_group_name"]
+    @purchase.group = params[:group_select]
 
     respond_to do |format|
       if @purchase.save
@@ -169,6 +169,11 @@ class PurchasesController < ApplicationController
     end
   end
   
+  def edit_payment
+    
+  end
+
+
   def close
     # Prevents unauthorized access by other users
     if current_user.id != @purchase.user_id

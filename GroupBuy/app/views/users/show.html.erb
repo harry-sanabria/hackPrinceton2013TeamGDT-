@@ -1,4 +1,7 @@
-Hello, <%= @user.name %><br>
-<%= link_to 'View Purchases', purchases_path %>	
-<%= button_to "Create a New Purchase", new_purchase_path, :method=>:get,:class => "btn btn-primary"%>
-
+<p><center>
+	<h1>Hello, <%= @user.name %>!</h1>
+	<div class="buttonwrapper">
+		<%= button_to 'View Purchases', purchases_path, :method=>:get,:class => "btn btn-primary" %>
+		<%= button_to "Create a New Purchase", new_purchase_path, :method=>:get,:class => "btn btn-primary"%>
+	</div>
+</center></p>

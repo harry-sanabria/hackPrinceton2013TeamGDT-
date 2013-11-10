@@ -1,4 +1,4 @@
-<h1>Join this purchase!</h1>
+<h1>Join This Purchase:</h1>
 
 <%= form_for(@purchase, :method => :put, :url => join_purchase_path(@purchase.id)) do |f| %>
   <% if @purchase.errors.any? %>
@@ -14,16 +14,16 @@
   <% end %>
 
   <div class="field">
-    <%= label_tag "How much you pay:" %><br>
+    <%= label_tag "How much you pay:" %>
     <%= number_field_tag "price", :min => 0 %>
   </div>
   <div class="field">
-    <%= label_tag "Description" %><br>
+    <%= label_tag "Description" %>
     <%= text_field_tag "description" %>
   </div>
 
   <div class="actions">
-    <%= f.submit "Join!"%>
+    <%= f.submit "Join Purchase", :class => "btn btn-primary" %>
   </div>
 <% end %>
 

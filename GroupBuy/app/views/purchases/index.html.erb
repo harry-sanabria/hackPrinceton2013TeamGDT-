@@ -3,7 +3,9 @@
 <h4>You have <%= pluralize(@purchases.count, "purchase") %>.<br>
 	You have <%= pluralize(current_user.payments.count, "payment") %>.</h4>
 
-<%= button_to "Create a New Purchase", new_purchase_path, :method=>:get,:class => "btn btn-primary"%>
+<div class="singlebutton">
+	<%= button_to "Create a New Purchase", new_purchase_path, :method=>:get,:class => "btn btn-primary"%>
+</div>
 
 <hr>
 <h2>Your Created Purchases</h2>
@@ -23,13 +25,13 @@
 			<td><%= link_to "#{purchase.title}", purchase %></td>
 			<td><%= dollars(purchase.min_price) %></td>
 			<td><%= dollars(purchase.current_total_price) %></td>
-			<td><%= get_status(@purchase) %></td>
+			<td><%= get_status(purchase) %></td>
 		</tr>
 		<% end %>
 	</tbody>
 </table>
 
-<h2>Your Payments</h2>
+<h2>Purchases You Are A Part Of</h2>
 <table border="1">
 	<thead>
 		<tr>
