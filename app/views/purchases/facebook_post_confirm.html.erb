@@ -1,9 +1,9 @@
-<p id="post_confirmation">
-  A post has been made to the facebook group.
-</p>
+<h1 id="post_confirmation">
+  <%= "A post has been made to the Facebook group ${@purchase.group}. %>
+</h1>
 <input type="hidden", id="group_id", value=<%= @purchase.group_id %> />
 <input type="hidden", id="purchase_title", value=<%= @purchase.title %> />
 <input type="hidden", id="confirmation_purchase_id", value=<%= @purchase.id %> />
 <input type="hidden", id="confirmation_page_token", value=<%= current_user.oauth_token %> />
-<%= link_to "View Purchase", purchase_path(@purchase) %>
+<%= button_to "View Purchase", purchase_path(@purchase), :method=>:get, :class=>"btn btn-primary"%>
 
