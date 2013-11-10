@@ -53,6 +53,7 @@ class PurchasesController < ApplicationController
     @purchase.current_total_price = 0
     @purchase.user_id = current_user.id
     @purchase.group = params["selected_group_name"]
+    @purchase.group_id = params["group_select"]
 
     respond_to do |format|
       if @purchase.save
@@ -164,22 +165,6 @@ class PurchasesController < ApplicationController
       flash[:notice] = "A facebook post has already been sent out!"
       redirect_to @purchase
       return
-    end
-    url = "https://graph.facebook.com/#{@purchase.group}/feed"
-    post_args = {
-      'access_token' => current_user.oauth_token,
-      'link' => "http://combuyne.herokuapp.com/purchases/#{@purchase.id}",
-      'message' =>  "Hey guys!  Join my payment on GroupBuy!"
-    }
-    resp = Net::HTTP.post_form(url, post_args)
-    respond_to do |format|
-      if resp[:id]
-        format.html { redirect_to @purchase, notice: 'Posted to facebook group.' }
-        format.json { render action: 'show', status: :created, location: @purchase }
-      else
-        format.html { redirect_to @purchase, notice: "#{resp.errors}" }
-        format.json { render action: 'show', status: :created, location: @purchase }
-      end
     end
   end
 
