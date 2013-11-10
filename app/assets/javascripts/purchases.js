@@ -8,6 +8,7 @@ $(function() {
     facebook_token = (document.getElementById("facebook_token"))
     if (facebook_token) {
       var groups = new Array();
+      alert("hello");
       FB.api('/me/groups', {access_token: facebook_token.value}, function(response) {
         groupObjs = eval(response)["data"];
         for (var i=0; i<groupObjs.length; i++) {
