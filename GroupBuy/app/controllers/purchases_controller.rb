@@ -137,7 +137,7 @@ class PurchasesController < ApplicationController
     #   redirect_to current_user
     #   return
     # end
-    @purchase = Purchase.find(params[:id])
+    @purchase = Purchase.find_by_id(params[:id])
 
     respond_to do |format|
       payment = Payment.new()

@@ -40,21 +40,6 @@
 
 <% elsif current_user.payments.where(:purchase_id => @purchase.id).any? %>
   <h2>Contributors</h2>
-  <p>
-  	<strong>You owe:</strong>
-    <%= dollars(@purchase.get_current_user_payment(current_user).price) %>
-  </p>
-
-  <p>
-    <strong>Your payment description:</strong>
-    <%= @purchase.get_current_user_payment(current_user).description %>
-  </p>
-  <% if @purchase.is_accepting_payments? %>
-    <%= link_to "Edit how much you pay", purchase_edit_payment_path(@purchase.id) %>
-  <% end %>
-  <p>
-    <strong>Other people in this purchase:</strong>
-  </p>
   <table border="1">
     <thead>
       <tr>
@@ -73,19 +58,42 @@
     </tbody>
   </table>
 
+  <p>
+  	<strong>You owe: </strong>
+    <%= dollars(@purchase.get_current_user_payment(current_user).price) %>
+  </p>
+
+  <p>
+    <strong>Your payment description: </strong>
+    <%= @purchase.get_current_user_payment(current_user).description %>
+  </p>
+  <% if @purchase.is_accepting_payments? %>
+  <p>
+    <%= link_to "Edit how much you pay", purchase_edit_payment_path(@purchase.id) %>
+  </p>
+  <% end %>
 <% end %>
 
 <% if current_user.id == @purchase.user_id %>
   <% if @purchase.is_accepting_payments? %>
+  <hr>
+  <p>
     <%= link_to "Edit the details of this purchase", edit_purchase_path(@purchase) %>
+  </p>
   <% end %>
   <% if @purchase.is_minimum_met? %>
-  	<hr>
-    <p>Click here to close this purchase to new users.</p>
+  <hr>
+  <p>
+  	Click here to close this purchase to new users.
+  </p>
+  <p>
     <%= button_to "Close Purchase", close_purchase_path(@purchase) %>
+  </p>
   <% elsif @purchase.is_closed? %>
-    <hr>
+  <hr>
+  <p>
     <%= button_to "Finalize", finalize_purchase_path(@purchase) %>
+  </p>
   <% end %>
 <% end %>
 

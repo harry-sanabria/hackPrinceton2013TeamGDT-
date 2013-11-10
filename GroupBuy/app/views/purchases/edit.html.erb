@@ -24,9 +24,10 @@
   </div>
   <div class="field">
     <strong>Current total price: </strong>
-    <%= dollars(@purchase.current_total_price) %><br>
+    	<%= dollars(@purchase.current_total_price) %><br>
     <strong>Price remaining: </strong>
-    <%= dollars(@purchase.get_remaining_price()) %><br>
+    	<%= dollars(@purchase.get_remaining_price()) %><br>
+    
     <%= f.label :min_price %><br>
     <%= f.number_field :min_price, :min => 0 %>
   </div>
