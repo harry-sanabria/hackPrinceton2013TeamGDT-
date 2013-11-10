@@ -101,9 +101,13 @@
 
 <% end %>
 
-<% if current_user.id == @purchase.user_id%>
-  <h1>This is a magical link.</h1>
-
-  <%= link_to "Confirm Purchase", "/venmo/charge?purchase_id=#{@purchase.id}"%>
-  <%= link_to 'Back', root_path %>
+<% if current_user.id == @purchase.user_id %>
+  <hr>
+  <h3>This is a magical link.</h3>
+  <% if not @purchase.is_confirmed? %>
+  	<%= link_to "Confirm Purchase", "/venmo/charge?purchase_id=#{@purchase.id}"%>
+  <% end %>
+  <hr>
 <% end %>
+
+<%= link_to 'Back', root_path %>
