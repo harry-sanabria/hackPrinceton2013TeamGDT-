@@ -25,7 +25,9 @@ $(function() {
     if (confirmation_page_id && group_id && confirmation_page_token) {
       message = "Hey guys!  Join my payment on GroupBuy!";
       link = "http://combuyne.herokuapp.com/purchases/"+confirmation_page_id.value;
-      FB.api('/'+group_id.value+'/feed', 'post', {access_token: confirmation_page_token.value, link: link, message: message})
+      FB.api('/'+group_id.value+'/feed', 'post', {access_token: confirmation_page_token.value, link: link, message: message}, function (callback) {
+        alert(callback.id);
+      });
     }
   });
   $("#group_select").change(function (eventObj) {
