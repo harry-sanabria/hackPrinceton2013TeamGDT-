@@ -1,5 +1,4 @@
 $('#layout_body').prepend('<div id="fb-root"></div>')
-console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 $(function() {
   $.ajaxSetup({ cache: true });
   $.getScript('//connect.facebook.net/en_US/all.js', function(){
@@ -9,8 +8,7 @@ $(function() {
     facebook_token = (document.getElementById("facebook_token"))
     if (facebook_token) {
       var groups = new Array();
-      console.log(">>>>>>>>>>>>>>>>>>>>>>>LALALALALALALALALALALALALALA");
-      alert("HIIII");
+      lkdsjaf;lkjsdf;lkjas;lkdfjlkasjdfl;kj
       FB.api('/me/groups', {access_token: facebook_token.value}, function(response) {
         groupObjs = eval(response)["data"];
         for (var i=0; i<groupObjs.length; i++) {
@@ -28,10 +26,7 @@ $(function() {
     if (confirmation_page_id && group_id && confirmation_page_token) {
       message = "Hey guys!  Join my payment on GroupBuy!";
       link = "http://combuyne.herokuapp.com/purchases/"+confirmation_page_id.value;
-      FB.api('/'+group_id.value+'/feed', 'post', {access_token: confirmation_page_token.value, link: link, message: message}, function (response) {
-        console.log(">>>>>>>>>>>>>>>>>>>>>>>LALALALALALALALALALALALALALA");
-        console.log(response.id);
-      });
+      FB.api('/'+group_id.value+'/feed', 'post', {access_token: confirmation_page_token.value, link: link, message: message});
     }
   });
   $("#group_select").change(function (eventObj) {
