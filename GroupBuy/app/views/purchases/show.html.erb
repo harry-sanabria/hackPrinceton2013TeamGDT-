@@ -85,7 +85,6 @@
         <%= btn_to "Close Purchase", close_purchase_path(@purchase) %>
   <% elsif @purchase.is_closed? %>
         <%= btn_to "Finalize", finalize_purchase_path(@purchase) %>
-  	<%= link_to "Finalize Purchase", "/venmo/charge?purchase_id=#{@purchase.id}"%>
   <% end %>
   <hr>
 <% end %>
