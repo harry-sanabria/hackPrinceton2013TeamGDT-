@@ -18,9 +18,7 @@ class PurchasesController < ApplicationController
     #   redirect_to current_user
     #   return
     # end
-    @users= @purchase.users
 
-    # Add user that has made it to the page
   end
 
   # GET /purchases/new

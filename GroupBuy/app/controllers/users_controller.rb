@@ -6,6 +6,9 @@ class UsersController < ApplicationController
       return
     else
       @user = current_user
+      for purchase in current_user.purchases
+      	puts "SAHFLSDKFHLSGKDJF =========", purchase.title
+      end
     end
   end
 
