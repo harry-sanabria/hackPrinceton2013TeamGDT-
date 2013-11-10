@@ -219,7 +219,7 @@ class PurchasesController < ApplicationController
     end
     
     helper_method :get_status_color
-    def get_status(purchase)
+    def get_status_color(purchase)
       if purchase.is_minimum_not_met?
         return "black"
       elsif purchase.is_minimum_met?
