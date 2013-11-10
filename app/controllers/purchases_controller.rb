@@ -160,12 +160,26 @@ class PurchasesController < ApplicationController
 
   def facebook_post_confirm
     @purchase = Purchase.find(params[:id])
-    puts "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n >>>>>>>>>>>>>>>>>>>OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO"
     if @purchase.payments.size != 0
       flash[:notice] = "A facebook post has already been sent out!"
       redirect_to @purchase
       return
-
+    end
+    url = "https://graph.facebook.com/#{@purchase.group}/feed"
+    post_args = {
+      'access_token' => current_user.oath_token,
+      'link' => "http://combuyne.herokuapp.com/purchases/#{@purchase.id}",
+      'message' =>  "Hey guys!  Join my payment on GroupBuy!"
+    }
+    resp = Net::HTTP.post_form(url, post_args)
+    respond_to do |format|
+      if resp[:id]
+        format.html { redirect_to @purchase, notice: 'Posted to facebook group.' }
+        format.json { render action: 'show', status: :created, location: @purchase }
+      else
+        format.html { redirect_to @purchase, notice: "#{resp.errors}" }
+        format.json { render action: 'show', status: :created, location: @purchase }
+      end
     end
   end
 
