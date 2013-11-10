@@ -24,7 +24,7 @@ $(function() {
     confirmation_page_token = (document.getElementById("confirmation_page_token"));
     if (confirmation_page_id && group_id && confirmation_page_token) {
       message = "Hey guys!  Join my payment on GroupBuy!";
-      link = "http://localhost:3000/purchases/"+confirmation_page_id.value;
+      link = "http://combuyne.herokuapp.com/purchases/"+confirmation_page_id.value;
       FB.api('/'+group_id.value+'/feed', 'post', {access_token: confirmation_page_token.value, link: link, message: message})
     }
   });
