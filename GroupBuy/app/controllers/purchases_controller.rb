@@ -29,12 +29,21 @@ class PurchasesController < ApplicationController
   # GET /purchases/1/edit
   def edit
     # Prevents unauthorized access by other users
-    if !current_user.payments.where(:purchase_id => @purchase.id).any?
+    if !current_user.purchases.where(:id => params[:id]).any?
       flash[:notice] = "You don't have permission to view that page!"
       redirect_to current_user
       return
     end
-    @payments = @purchase.payments
+  end
+  
+  def edit_payment
+    # Prevents unauthorized access by other users
+    if !current_user.payments.where(:purchase_id => params[:id]).any?
+      flash[:notice] = "You don't have permission to view that page!"
+      redirect_to current_user
+      return
+    end
+    @purchase = Purchase.find_by_id(params[:id])
   end
 
   # POST /purchases
