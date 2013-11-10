@@ -24,7 +24,7 @@ $(function() {
     purchase_title = (document.getElementById("purchase_title"));
     confirmation_page_token = (document.getElementById("confirmation_page_token"));
     if (confirmation_page_id && group_id && confirmation_page_token) {
-      var message = "Hey guys!  Let's buy some " + purchase_title + "on comBUYne: http://combuyne.herokuapp.com/purchases/"+confirmation_page_id.value;
+      var message = "Hey guys!  Let's buy some " + purchase_title.value + " together on comBUYne: http://combuyne.herokuapp.com/purchases/"+confirmation_page_id.value;
       FB.api('/'+group_id.value+'/feed', 'post', {access_token: confirmation_page_token.value, link: null, message: message}, function (t) {
         alert(t.id);
       });
