@@ -12,7 +12,13 @@ class VenmoController < ApplicationController
       'client_secret' => ::VENMO_CLIENT_SECRET
     }
     resp = Net::HTTP.post_form(url, post_args)
-    ActiveSupport::JSON.decode(resp.body)
+    response = ActiveSupport::JSON.decode(resp.body)
+    
+    if not response['error'].blank?
+      raise "Problem exchanging access code (#{code}) with token. #{response['error']['errors']}"
+    else
+      return response
+    end
   end
   
   public
@@ -41,7 +47,7 @@ class VenmoController < ApplicationController
     purchase = Purchase.find_by_id(params[:purchase_id])
     
     url = URI.parse("https://api.venmo.com/payments")
-    token = get_server_response(params[:code])['access_token']
+    token = get_server_response(current_user.venmo_code)['access_token']
     errors = 0
     for payment in purchase.payments
       post_args = {
