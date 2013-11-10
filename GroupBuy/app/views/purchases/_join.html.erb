@@ -1,6 +1,6 @@
 <h1>Join This Purchase:</h1>
 
-<%= form_for(@purchase, :method => :put, :url => join_purchase_path(@purchase)) do |f| %>
+<%= form_for(@purchase, :method => :put, :url => join_purchase_path(@purchase.id)) do |f| %>
   <% if @purchase.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@purchase.errors.count, "error") %> prohibited this purchase from being saved:</h2>
@@ -23,7 +23,7 @@
   </div>
 
   <div class="actions">
-    <%= f.submit "Create Purchase", :class => "btn btn-primary" %>
+    <%= f.submit "Join Purchase", :class => "btn btn-primary" %>
   </div>
 <% end %>
 

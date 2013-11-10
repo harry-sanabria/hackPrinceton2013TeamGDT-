@@ -14,7 +14,7 @@
 		<tr>
 			<th>Payment Title</th>
 			<th>Minimum</th>
-			<th>Progress</th>
+			<th>Total Contributed</th>
 			<th>Status</th>
 		</tr>
 	</thead>
@@ -25,10 +25,7 @@
 			<td><%= link_to "#{purchase.title}", purchase %></td>
 			<td><%= dollars(purchase.min_price) %></td>
 			<td><%= dollars(purchase.current_total_price) %></td>
-			<td><% if purchase.is_minimum_not_met? %>Pending
-				<% elsif purchase.is_minimum_met? %>Ready
-				<% elsif purchase.is_confirmed? %>Complete
-				<% end %></td>
+			<td><%= get_status(purchase) %></td>
 		</tr>
 		<% end %>
 	</tbody>
@@ -41,7 +38,7 @@
 			<th>Payment Title</th>
 			<th>Minimum</th>
 			<th>Your Contribution</th>
-			<th>Progress</th>
+			<th>Total Contributed</th>
 			<th>Status</th>
 		</tr>
 	</thead>
@@ -51,13 +48,10 @@
 		<% purchase = Purchase.find(payment.purchase_id) %>
 		<tr>
 			<td><%= link_to "#{purchase.title}", purchase %></td>
-			<td><%= "$%.2f" % purchase.min_price %></td>
-			<td><%= "$%.2f" % payment.price %></td>
-			<td><%= "$%.2f" % purchase.current_total_price %></td>
-			<td><% if purchase.is_minimum_not_met? %>Pending
-				<% elsif purchase.is_minimum_met? %>Ready
-				<% elsif purchase.is_confirmed? %>Complete
-				<% end %></td>
+			<td><%= dollars(purchase.min_price) %></td>
+			<td><%= dollars(payment.price) %></td>
+			<td><%= dollars(purchase.current_total_price) %></td>
+			<td><%= get_status(purchase) %></td>
 		</tr>
 		<% end %>
 	</tbody>

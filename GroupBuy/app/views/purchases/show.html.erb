@@ -23,7 +23,9 @@
       <br>
     	<strong>Deadline: </strong>
     	<%= @purchase.deadline %>
-      <br><br>
+      
+      <hr>
+
       <% if current_user.id == @purchase.user_id %>
         <% if @purchase.is_accepting_payments? %>
           <%= link_to "Edit the details of this purchase", edit_purchase_path(@purchase) %>
@@ -34,7 +36,7 @@
           <%= button_to "Close Purchase", close_purchase_path(@purchase) %>
           <hr>
         <% elsif @purchase.is_closed? %>
-          <%= btn_to "Finalize", finalize_purchase_path(@purchase) %>
+          <%= button_to "Finalize", finalize_purchase_path(@purchase) %>
         <% end %>
       <% end %>
     </div>

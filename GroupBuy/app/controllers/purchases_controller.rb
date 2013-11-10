@@ -77,10 +77,6 @@ class PurchasesController < ApplicationController
     end
     respond_to do |format|
       if @purchase.update(purchase_params)
-        @purchase.get_current_user_payment(current_user).update(
-          :price => params[:payment_price],
-          :description => params[:payment_description])
-
         # update current total price for this payment
         @purchase.update_current_total_price()
 
@@ -88,6 +84,30 @@ class PurchasesController < ApplicationController
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }
+        format.json { render json: @purchase.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+  
+  def update_payment
+    # Prevents unauthorized access by other users
+    if !current_user.payments.where(:purchase_id => params[:id]).any?
+      flash[:notice] = "You don't have permission to view that page!"
+      redirect_to current_user
+      return
+    end
+    @purchase = Purchase.find_by_id(params[:id])
+    respond_to do |format|
+      if @purchase.get_current_user_payment(current_user).update(
+          :price => params[:payment_price],
+          :description => params[:payment_description])
+        # update current total price for this payment
+        @purchase.update_current_total_price()
+
+        format.html { redirect_to @purchase, notice: 'Payment was successfully updated.' }
+        format.json { head :no_content }
+      else
+        format.html { render action: 'edit_payment' }
         format.json { render json: @purchase.errors, status: :unprocessable_entity }
       end
     end
@@ -117,7 +137,7 @@ class PurchasesController < ApplicationController
     #   redirect_to current_user
     #   return
     # end
-    @purchase = Purchase.find(params[:id])
+    @purchase = Purchase.find_by_id(params[:id])
 
     respond_to do |format|
       payment = Payment.new()
@@ -125,13 +145,17 @@ class PurchasesController < ApplicationController
       payment.user_id = current_user.id
       payment.price = params[:price]
       payment.description = params[:description]
-      payment.save
+      saved = payment.save
 
       # update current total price for this payment
       @purchase.update_current_total_price()
-
-      format.html { redirect_to @purchase, notice: 'Successfully joined purchase!' }
-      format.json { render action: 'show', status: :created, location: @purchase }
+      if saved
+        format.html { redirect_to @purchase, notice: 'Successfully joined purchase!' }
+        format.json { render action: 'show', status: :created, location: @purchase }
+      else
+        format.html { redirect_to @purchase, notice: 'Unable to join, please try again.' }
+        format.json { render action: 'show', status: :created, location: @purchase }
+      end
      end
   end
 
@@ -166,5 +190,18 @@ class PurchasesController < ApplicationController
 
     def purchase_params
       params.require(:purchase).permit(:title, :min_price, :description, :deadline)
+    end
+    
+    helper_method :get_status
+    def get_status(purchase)
+      if purchase.is_minimum_not_met?
+        return "Pending"
+      elsif purchase.is_minimum_met?
+        return "Minimum Reached"
+      elsif purchase.is_closed?
+        return "Closed"
+      elsif purchase.is_finalized?
+        return "Complete"
+      end
     end
 end
