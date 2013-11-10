@@ -1,4 +1,5 @@
 $('#layout_body').prepend('<div id="fb-root"></div>')
+alert("hello");
 $(function() {
   $.ajaxSetup({ cache: true });
   $.getScript('//connect.facebook.net/en_US/all.js', function(){
