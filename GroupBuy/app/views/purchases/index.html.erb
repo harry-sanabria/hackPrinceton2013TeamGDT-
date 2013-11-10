@@ -25,6 +25,7 @@
 			<td><%= dollars(purchase.current_total_price) %></td>
 			<td><% if purchase.is_minimum_not_met? %>Pending
 				<% elsif purchase.is_minimum_met? %>Minimum Reached
+				<% elsif purchase.is_closed? %>Closed
 				<% elsif purchase.is_finalized? %>Complete
 				<% end %></td>
 		</tr>
