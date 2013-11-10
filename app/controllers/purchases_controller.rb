@@ -160,6 +160,7 @@ class PurchasesController < ApplicationController
 
   def facebook_post_confirm
     @purchase = Purchase.find(params[:id])
+    puts "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n >>>>>>>>>>>>>>>>>>>"
     if @purchase.payments.size != 0
       flash[:notice] = "A facebook post has already been sent out!"
       redirect_to @purchase
