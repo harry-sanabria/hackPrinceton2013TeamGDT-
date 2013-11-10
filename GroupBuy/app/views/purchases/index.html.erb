@@ -12,7 +12,7 @@
 		<tr>
 			<th>Payment Title</th>
 			<th>Minimum</th>
-			<th>Progress</th>
+			<th>Total Contributed</th>
 			<th>Status</th>
 		</tr>
 	</thead>
@@ -25,7 +25,7 @@
 			<td><%= dollars(purchase.current_total_price) %></td>
 			<td><% if purchase.is_minimum_not_met? %>Pending
 				<% elsif purchase.is_minimum_met? %>Ready
-				<% elsif purchase.is_confirmed? %>Complete
+				<% elsif purchase.is_finalized? %>Complete
 				<% end %></td>
 		</tr>
 		<% end %>
@@ -39,7 +39,7 @@
 			<th>Payment Title</th>
 			<th>Minimum</th>
 			<th>Your Contribution</th>
-			<th>Progress</th>
+			<th>Total Contributed</th>
 			<th>Status</th>
 		</tr>
 	</thead>
@@ -54,7 +54,7 @@
 			<td><%= "$%.2f" % purchase.current_total_price %></td>
 			<td><% if purchase.is_minimum_not_met? %>Pending
 				<% elsif purchase.is_minimum_met? %>Ready
-				<% elsif purchase.is_confirmed? %>Complete
+				<% elsif purchase.is_finalized? %>Complete
 				<% end %></td>
 		</tr>
 		<% end %>
