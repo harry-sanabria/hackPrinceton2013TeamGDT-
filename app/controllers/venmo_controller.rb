@@ -85,20 +85,19 @@ class VenmoController < ApplicationController
         'access_token' => valid_token(current_user.venmo),
         'user_id' => User.find_by_id(payment.user_id).venmo.user_id,
         'note' => "From #{current_user.venmo.username} for purchase: #{purchase.title}. Pickup info: #{params[:pickup_details]}",
-        'amount' => dollars(1.0 * payment.price / params[:final_price].to_f),
+        'amount' => "%.2f" % -1.0 * payment.price / params[:final_price].to_f,
         'audience' => 'private'
       }
       
       resp = Net::HTTP.post_form(url, post_args)
       response = ActiveSupport::JSON.decode(resp.body) 
       if not response['error'].blank?
-        puts "ERROR: Problem charging #{User.find_by_id(payment.user_id).venmo.username}. #{response['error']['errors']}"
-        puts response
+        puts "ERROR: Problem charging #{User.find_by_id(payment.user_id).venmo.username}. #{response['error']['message']}"
         errors += 1
       end
     end
     if errors
-      redirect_to current_user, notice: "Purchase finalized, but with #{errors} errors..."
+      redirect_to current_user, notice: "Purchase finalized, but with #{errors} errors... Contact admin for details."
     else
       redirect_to current_user, notice: "Purchase finalized! Charges have been sent to those who joined."
     end
