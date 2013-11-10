@@ -4,6 +4,13 @@
       <strong>Title: </strong><br>
       <%= @purchase.title %>
       <br>
+      <strong>Status: </strong><br>
+      <% if not @purchase.is_accepting_payments? %>
+      	<span style="color: red;"> <%= get_status(@purchase.status) %> </span>
+      <% else %>
+      	<%= get_status(@purchase.status) %>
+      <% end %>
+      <br>
       <strong>Description: </strong><br>
       <%= @purchase.description %>
       <br>
@@ -25,11 +32,9 @@
       <% @purchase.payments.each do |payment| %>
           <%= User.find(payment.user_id).name %><br>
       <% end %>
-      <br>
 
       <% if current_user.id == @purchase.user_id %>
         <% if @purchase.is_accepting_payments? %>
-          <hr>
           <%= button_to "Edit Purchase", edit_purchase_path(@purchase), :method=>:get, :class => "btn btn-primary" %>
         <% end %>
         <% if @purchase.is_minimum_met? %>

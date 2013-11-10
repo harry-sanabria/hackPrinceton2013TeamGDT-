@@ -1,8 +1,8 @@
-<div class="wrapper">>
+<div class="wrapper">
 	<%= render 'details' %>
 	
 	<div class="right">
-		<h1>Finalizing purchase</h1>
+		<h1>Finalize Purchase</h1>
 		<%= form_tag("/venmo/charge?purchase_id=#{@purchase.id}") %>
 		  <div class="field">
 		    <%= label_tag "Final price:" %>
