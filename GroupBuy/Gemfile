@@ -14,7 +14,7 @@ group :production do
 end
 
 # Add bootstrap
-gem 'bootstrap-sass', '~> 2.3.2.1'
+gem 'bootstrap-sass', '2.3.2.1'
 
 gem 'bcrypt-ruby','3.1.1.rc1', :require => 'bcrypt'
 gem 'protected_attributes'

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131109233243) do
+ActiveRecord::Schema.define(version: 20131110024025) do
 
   create_table "payments", force: true do |t|
     t.integer  "user_id"
@@ -45,6 +45,7 @@ ActiveRecord::Schema.define(version: 20131109233243) do
     t.datetime "oauth_expires_at"
     t.string   "venmo_code"
     t.string   "venmo_username"
+    t.string   "image_url"
   end
 
 end

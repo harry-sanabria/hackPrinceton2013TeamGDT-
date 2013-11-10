@@ -11,3 +11,22 @@
  *= require_self
  *= require_tree .
  */
+
+#site_logo {
+	text-decoration: none;
+	font-size:30px !important;
+}
+
+#site_description {
+	font-size:15px;
+	color: #EEEEEE;
+	width:100px;
+}
+
+
+#individual_page {
+	margin: 20px;
+}
+.navbar-inner,.navbar {
+	height:50px;
+}
