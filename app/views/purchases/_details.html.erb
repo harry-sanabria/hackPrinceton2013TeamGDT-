@@ -43,7 +43,7 @@
           <hr>
           <%= button_to "Begin Finalization", finalize_purchase_path(@purchase), :class => "btn btn-primary" %>
         <% end %>
-        <%= button_to "Delete Purchase", delete_purchase_path(@purchase), :method=>:delete, :class => "btn btn-primary" %>
+        <%= button_to "Delete Purchase", purchase_path(@purchase), :method=>:delete, :class => "btn btn-primary" %>
       <% end %>
     </div>
   </div>
