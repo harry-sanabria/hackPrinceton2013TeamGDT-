@@ -36,6 +36,8 @@ class Purchase < ActiveRecord::Base
     self.current_total_price = total
     if total >= self.min_price
       self.state = 2
+    else
+      self.state = 1
     end
     self.save
     return
