@@ -1,4 +1,21 @@
 Hello, <%= @user.name %>
 <%= link_to 'Back', root_path %>
-<%= link_to 'View purchases', purchase_path %>
+<table border="1">
+	<thead>
+		<tr>
+			<th>Title</th><th>Cost</th><th>You owe</th>
+		</tr>
+	</thead>
+
+	<tbody>
+		<% current_user.purchases do |purchase| %>
+		<tr>
+
+			<td><%= link_to "#{purchase.title}", purchase %></td>
+			<td><%= "$#{purchase.price}" %></td>
+			<td><%= "$#{purchase.how_much_due(purchase.get_current_user_payment(current_user))}" %></td>
+		</tr>
+		<% end %>
+	</tbody>
+</table>
 <%= link_to 'Create new purchase', new_purchase_path %>
