@@ -35,6 +35,7 @@
     <input type="hidden", id="facebook_token", value=<%=current_user.oauth_token%>>
   </div>
   <div class="field">
+    <%= label_tag "group", "Share with Facebook group" %>
     <%= select_tag "group_select", :required => true%>
   </div>
 
