@@ -70,6 +70,7 @@
     <%= @purchase.deadline %>
   </p>
 
+  <h2>Contributors</h2>
   <p>
   	<strong>You owe:</strong>
     <%= "$#{@purchase.get_current_user_payment(current_user).price}" %>
@@ -79,6 +80,24 @@
     <strong>Your payment description:</strong>
     <%= @purchase.get_current_user_payment(current_user).description %>
   </p>
+
+  <table border="1">
+    <thead>
+      <tr>
+        <th>User</th>
+        <th>Payment</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @purchase.payments.each do |payment| %>
+      <tr>
+        <td><%= link_to User.find(payment.user_id).name, User.find(payment.user_id) %></td>
+        <td><%= "$#{payment.price}" %></td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
 
 <% end %>
 
