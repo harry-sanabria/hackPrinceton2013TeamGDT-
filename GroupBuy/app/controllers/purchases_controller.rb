@@ -186,17 +186,4 @@ class PurchasesController < ApplicationController
     def purchase_params
       params.require(:purchase).permit(:title, :min_price, :description, :deadline)
     end
-    
-    helper_method :get_status
-    def get_status(purchase)
-      if purchase.is_minimum_not_met?
-        return "Pending"
-      elsif purchase.is_minimum_met?
-        return "Minimum Reached"
-      elsif purchase.is_closed?
-        return "Closed"
-      elsif purchase.is_finalized?
-        return "Complete"
-      end
-    end
 end
