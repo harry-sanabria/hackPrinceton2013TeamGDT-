@@ -93,6 +93,7 @@ class VenmoController < ApplicationController
       response = ActiveSupport::JSON.decode(resp.body) 
       if not response['error'].blank?
         puts "ERROR: Problem charging #{User.find_by_id(payment.user_id).venmo.username}. #{response['error']['errors']}"
+        puts response
         errors += 1
       end
     end
