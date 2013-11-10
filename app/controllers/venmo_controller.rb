@@ -85,15 +85,13 @@ class VenmoController < ApplicationController
       next if payment.user_id == current_user.id        #Skip if yourself
       post_args = {
         'access_token' => valid_token(current_user.venmo),
-        'user_id' => User.find_by_id(payment.user_id).venmo.user_id,
+        'user_id' => User.find_by_id(payment.user_id).venmo.venmo_id,
         'note' => "From #{current_user.venmo.username} for purchase: #{purchase.title}. Pickup info: #{params[:pickup_details]}",
         'amount' => "%.2f" % (-1.0 * payment.price * purchase.current_total_price / final_price),
         'audience' => 'private'
       }
       resp = Net::HTTP.post_form(url, post_args)
       response = ActiveSupport::JSON.decode(resp.body)
-      
-      puts post_args
       
       if not response['error'].blank?
         puts "ERROR: Problem charging #{User.find_by_id(payment.user_id).venmo.username}. #{response['error']['message']}"
