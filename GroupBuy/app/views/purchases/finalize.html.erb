@@ -1,0 +1,15 @@
+<h1>"Finalizing purchase"</h1>
+<%= form_tag("/venmo/charge?purchase_id=#{@purchase.id}") %>
+  <div class="field">
+    <%= number_field_tag "final_price", nil, min: 0 %>
+  </div>
+  <div class="field">
+    <%= text_area_tag "pickup_details", nil %>
+  </div>
+  <div class="actions">
+    <%= submit_tag %> 
+  </div>
+<% end %>
+
+<%= link_to 'Show', @purchase %> |
+<%= link_to 'Back', purchases_path %>

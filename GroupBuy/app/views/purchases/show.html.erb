@@ -17,17 +17,17 @@
 
 <p>
 	<strong>Minimum price: </strong>
-	<%= "dollars(@purchase.min_price)" %>
+	<%= dollars(@purchase.min_price) %>
 </p>
 
 <p>
 	<strong>Current total price: </strong>
-	<%= "dollars(@purchase.current_total_price)" %>
+	<%= dollars(@purchase.current_total_price) %>
 </p>
 
 <p>
 	<strong>Price remaining: </strong>
-	<%= "dollars(@purchase.get_remaining_price())" %>
+	<%= dollars(@purchase.get_remaining_price()) %>
 </p>
 
 <p>
@@ -38,11 +38,11 @@
 <% if !current_user.payments.where(:purchase_id => @purchase.id).any? && @purchase.is_accepting_payments?%>
   <%= render "join" %>
 
-<% else if current_user.payments.where(:purchase_id => @purchase.id).any? %>
+<% elsif current_user.payments.where(:purchase_id => @purchase.id).any? %>
   <h2>Contributors</h2>
   <p>
   	<strong>You owe:</strong>
-    <%= "$#{@purchase.get_current_user_payment(current_user).price}" %>
+    <%= dollars(@purchase.get_current_user_payment(current_user).price) %>
   </p>
 
   <p>
@@ -50,7 +50,7 @@
     <%= @purchase.get_current_user_payment(current_user).description %>
   </p>
   <% if @purchase.is_accepting_payments? %>
-    <%= link_to "Edit how much you pay", purchase_edit_payment_path(@purchase) %>
+    <%= link_to "Edit how much you pay", purchase_edit_payment_path(@purchase.id) %>
   <% end %>
   <p>
     <strong>Other people in this purchase:</strong>
@@ -67,7 +67,7 @@
       <% @purchase.payments.each do |payment| %>
       <tr>
         <td><%= User.find(payment.user_id).name %></td>
-        <td><%= "$#{payment.price}" %></td>
+        <td><%= dollars(payment.price) %></td>
       </tr>
       <% end %>
     </tbody>
@@ -76,18 +76,17 @@
 <% end %>
 
 <% if current_user.id == @purchase.user_id %>
-  <hr>
   <% if @purchase.is_accepting_payments? %>
-        <%= link_to "Edit the details of this purchase", edit_purchase_path(@purchase) %>
+    <%= link_to "Edit the details of this purchase", edit_purchase_path(@purchase) %>
   <% end %>
   <% if @purchase.is_minimum_met? %>
-        <p>Click here to close this purchase to new users.</p>
-        <%= btn_to "Close Purchase", close_purchase_path(@purchase) %>
+  	<hr>
+    <p>Click here to close this purchase to new users.</p>
+    <%= button_to "Close Purchase", close_purchase_path(@purchase) %>
+    <hr>
   <% elsif @purchase.is_closed? %>
-        <%= btn_to "Finalize", finalize_purchase_path(@purchase) %>
-  	<%= link_to "Finalize Purchase", "/venmo/charge?purchase_id=#{@purchase.id}"%>
+    <%= btn_to "Finalize", finalize_purchase_path(@purchase) %>
   <% end %>
-  <hr>
 <% end %>
 
-<%= link_to 'Back to purchases', purchases_path %>
+<%= link_to 'My Purchases', purchases_path %>
