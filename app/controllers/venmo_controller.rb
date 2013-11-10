@@ -99,9 +99,9 @@ class VenmoController < ApplicationController
       end
     end
     if errors > 0
-      redirect_to current_user, notice: "Purchase finalized, but with #{errors} errors... Contact admin for details."
+      redirect_to purchases_path, notice: "Purchase finalized, but with #{errors} errors... Contact admin for details."
     else
-      redirect_to current_user, notice: "Purchase finalized! Charges have been sent to those who joined."
+      redirect_to purchases_path, notice: "Purchase finalized! Charges have been sent to those who joined."
     end
   end
   
