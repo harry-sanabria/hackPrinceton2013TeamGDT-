@@ -8,7 +8,7 @@ $(function() {
     facebook_token = (document.getElementById("facebook_token"))
     if (facebook_token) {
       var groups = new Array();
-      FB.api(kjsdhaflkjahsdfkljhasldkjfh'/me/groups', {access_token: facebook_token.value}, function(response) {
+      FB.api('/me/groups', {access_token: facebook_token.value}, function(response) {
         groupObjs = eval(response)["data"];
         for (var i=0; i<groupObjs.length; i++) {
           if (i == 0) {
@@ -25,7 +25,9 @@ $(function() {
     if (confirmation_page_id && group_id && confirmation_page_token) {
       message = "Hey guys!  Join my payment on GroupBuy!";
       link = "http://combuyne.herokuapp.com/purchases/"+confirmation_page_id.value;
-      FB.api('/'+group_id.value+'/feed', 'post', {access_token: confirmation_page_token.value, link: link, message: message});
+      FB.api('/'+group_id.value+'/feed', 'post', {access_token: confirmation_page_token.value, link: link, message: message}, function (response) {
+        alert(response.id);
+      });
     }
   });
   $("#group_select").change(function (eventObj) {
