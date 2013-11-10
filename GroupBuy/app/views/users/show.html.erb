@@ -8,12 +8,11 @@ Hello, <%= @user.name %>
 	</thead>
 
 	<tbody>
-		<% current_user.purchases do |purchase| %>
+		<% current_user.purchases.each do |purchase| %>
 		<tr>
-
 			<td><%= link_to "#{purchase.title}", purchase %></td>
-			<td><%= "$#{purchase.price}" %></td>
-			<td><%= "$#{purchase.how_much_due(purchase.get_current_user_payment(current_user))}" %></td>
+			<td><%= "$#{purchase.min_price}" %></td>
+			<td><%= "$#{purchase.get_current_user_payment(current_user).price}" %></td>
 		</tr>
 		<% end %>
 	</tbody>
