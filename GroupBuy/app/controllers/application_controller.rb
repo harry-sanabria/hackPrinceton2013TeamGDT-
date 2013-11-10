@@ -17,7 +17,7 @@ class ApplicationController < ActionController::Base
   helper_method :dollars
   # Formats given string to %.02f
   def dollars(str)
-    "$%.2f" % str
+    return "$%.2f" % str
   end
 
   # Checks to see if a user has logged in, if not, restrict access by redirecting

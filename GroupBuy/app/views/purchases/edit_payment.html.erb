@@ -1,0 +1,39 @@
+<h1><%= "Editing payment for purchase " + @purchase.title %></h1>
+
+<h2>Edit your payment:</h2>
+<%= form_for(@purchase) do |f| %>
+  <% if @purchase.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@purchase.errors.count, "error") %> prohibited this purchase from being saved:</h2>
+
+      <ul>
+      <% @purchase.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  
+  <p>
+    <strong>Minimum price: </strong>
+    <%= "dollars(@purchase.min_price)" %><br>
+    <strong>Current total price: </strong>
+    <%= "dollars(@purchase.current_total_price)" %><br>
+    <strong>Price remaining: </strong>
+    <%= "dollars(@purchase.get_remaining_price())" %>
+  </p>
+
+  <div class="field">
+    <%= label_tag "Price" %><br>
+    <%= number_field_tag "payment_price", @purchase.get_current_user_payment(current_user).price, :min => 0 %>
+  </div>
+  <div class="field">
+    <%= label_tag "Description" %><br>
+    <%= text_field_tag "payment_description", @purchase.get_current_user_payment(current_user).description %>
+  </div>
+  <br>
+  <div class="actions">
+    <%= f.submit "Update"%>
+  </div>
+
+<% end %>

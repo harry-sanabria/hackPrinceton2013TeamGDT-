@@ -17,17 +17,17 @@
 
 <p>
 	<strong>Minimum price: </strong>
-	<%= "$#{@purchase.min_price}" %>
+	<%= "dollars(@purchase.min_price)" %>
 </p>
 
 <p>
 	<strong>Current total price: </strong>
-	<%= "$#{@purchase.current_total_price}" %>
+	<%= "dollars(@purchase.current_total_price)" %>
 </p>
 
 <p>
 	<strong>Price remaining: </strong>
-	<%= "$#{@purchase.get_remaining_price()}" %>
+	<%= "dollars(@purchase.get_remaining_price())" %>
 </p>
 
 <p>
@@ -38,7 +38,6 @@
 <% if !current_user.payments.where(:purchase_id => @purchase.id).any? %>
   <%= render "join" %>
 <% else %>
-
   <h2>Contributors</h2>
   <p>
   	<strong>You owe:</strong>

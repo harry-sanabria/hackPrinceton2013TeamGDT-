@@ -82,7 +82,7 @@ class VenmoController < ApplicationController
         'access_token' => valid_token(current_user.venmo),
         'user_id' => User.find_by_id(payment.user_id).venmo.user_id,
         'note' => "#{current_user.venmo_username} has charged you for #{purchase.title}",
-        'amount' => '%.2f' % (1.0 * payment.price / purchase.current_total_price),
+        'amount' => dollars(1.0 * payment.price / purchase.current_total_price),
         'audience' => 'private'
       }
       

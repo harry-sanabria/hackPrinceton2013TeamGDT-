@@ -1,5 +1,6 @@
 <h1><%= "Editing purchase " + @purchase.title %></h1>
 
+<h2>Edit this purchase:</h2>
 <%= form_for(@purchase) do |f| %>
   <% if @purchase.errors.any? %>
     <div id="error_explanation">
@@ -13,56 +14,31 @@
     </div>
   <% end %>
 
-  <% if current_user.id == @purchase.user_id%>
-    <h2>Edit this purchase:</h2>
-    <div class="field">
-      <%= f.label :title %><br>
-      <%= f.text_field :title %>
-    </div>
-    <div class="field">
-      <%= f.label :description %><br>
-      <%= f.text_field :description %>
-    </div>
-    <div class="field">
-      <strong>Current total price:</strong>
-      <%= "$#{@purchase.current_total_price}" %><br>
-      <strong>Price remaining:</strong>
-      <%= "$#{@purchase.get_remaining_price()}" %><br>
-      <%= f.label :min_price %><br>
-      <%= f.number_field :min_price, :min => 0 %>
-    </div>
-    <div class="field">
-      <%= f.label :deadline %><br>
-      <%= f.text_field :deadline %>
-    </div>  
-
-  <% end %>
-
-  <h2>Edit your payment:</h2>
-  <p>
-    <strong>Minimum price:</strong>
-    <%= "$#{@purchase.min_price}" %><br>
+  <div class="field">
+    <%= f.label :title %><br>
+    <%= f.text_field :title %>
+  </div>
+  <div class="field">
+    <%= f.label :description %><br>
+    <%= f.text_field :description %>
+  </div>
+  <div class="field">
     <strong>Current total price:</strong>
-    <%= "$#{@purchase.current_total_price}" %><br>
+    <%= "dollars(@purchase.current_total_price)" %><br>
     <strong>Price remaining:</strong>
-    <%= "$#{@purchase.get_remaining_price()}" %>
-  </p>
-
-  <div class="field">
-    <%= label_tag "Price" %><br>
-    <%= number_field_tag "payment_price", @purchase.get_current_user_payment(current_user).price, :min => 0 %>
+    <%= "dollars(@purchase.get_remaining_price())" %><br>
+    <%= f.label :min_price %><br>
+    <%= f.number_field :min_price, :min => 0 %>
   </div>
   <div class="field">
-    <%= label_tag "Description" %><br>
-    <%= text_field_tag "payment_description", @purchase.get_current_user_payment(current_user).description %>
+  	<%= f.label :deadline %><br>
+  	<%= f.text_field :deadline %>
   </div>
+  
   <br>
   <div class="actions">
     <%= f.submit "Update"%>
   </div>
-
-  </div>
-
 <% end %>
 
 <%= link_to 'Show', @purchase %> |

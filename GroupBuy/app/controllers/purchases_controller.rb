@@ -129,6 +129,14 @@ class PurchasesController < ApplicationController
   def facebook_post_confirm
     @purchase = Purchase.find(params[:id])
   end
+  
+  def edit_payment
+    
+  end
+  
+  def_close
+    
+  end
 
   private
     # Use callbacks to share common setup or constraints between actions.

@@ -20,8 +20,8 @@
 		<% current_user.purchases.each do |purchase| %>
 		<tr>
 			<td><%= link_to "#{purchase.title}", purchase %></td>
-			<td><%= "$%.2f" % purchase.min_price %></td>
-			<td><%= "$%.2f" % purchase.current_total_price %></td>
+			<td><%= dollars(purchase.min_price) %></td>
+			<td><%= dollars(purchase.current_total_price) %></td>
 			<td><% if purchase.is_minimum_not_met? %>Pending
 				<% elsif purchase.is_minimum_met? %>Ready
 				<% elsif purchase.is_confirmed? %>Complete
