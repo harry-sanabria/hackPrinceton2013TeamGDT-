@@ -31,7 +31,7 @@
 						<!-- VENMO -->
 						<% if current_user.venmo.blank? %>
 						<li>
-							Please attach a Venmo Account! 							<%= link_to "Authenticate", "/venmo/authenticate" %>
+							Please attach a Venmo Account! 							<%= link_to "Authenticate", "/venmo/authenticate", :class=>"navlist_link" %>
 						</li>
 						<% else %>
 						<li>
@@ -47,7 +47,7 @@
 
 						<% else %>
 						<li>
-							<%= link_to "Sign in with Facebook", "/auth/facebook", :class=>"navlist_link" %>
+							<%= link_to "Sign in", "/auth/facebook", :class=>"navlist_link" %>
 						</li>
 						<% end %>
 					</ul>
