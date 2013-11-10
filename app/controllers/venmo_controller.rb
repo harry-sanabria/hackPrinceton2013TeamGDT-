@@ -22,8 +22,7 @@ class VenmoController < ApplicationController
   end
   
   def valid_token(venmo)
-    require 'active_support/all'
-    if venmo.updated_at < ago(2592000)    # 30 days
+    if Time.now - venmo.updated_at > 30.days
       url = URI.parse("https://api.venmo.com/oauth/access_token")
       post_args = {
         'client_id' => ::VENMO_CLIENT_ID,
