@@ -73,6 +73,14 @@ class VenmoController < ApplicationController
   
   def charge    
     purchase = Purchase.find_by_id(params[:purchase_id])
+
+    # Prevents unauthorized access by other users
+    if current_user.id != purchase.user_id
+      flash[:notice] = "You don't have permission to view that page!"
+      redirect_to current_user
+      return
+    end
+
     purchase.state = 4
     purchase.save
     url = URI.parse("https://api.venmo.com/payments")
