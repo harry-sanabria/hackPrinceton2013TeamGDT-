@@ -25,8 +25,8 @@
 			<td><%= "$%.2f" % purchase.current_total_price %></td>
 			<td><%= "$%.2f" % purchase.get_current_user_payment(current_user).price %></td>
 			<td><% if purchase.is_minimum_not_met? %>Pending
-				<% else if purchase.is_minimum_met? %>Ready
-				<% else if purchase.is_confirmed? %>Complete
+				<% elsif purchase.is_minimum_met? %>Ready
+				<% elsif purchase.is_confirmed? %>Complete
 				<% end %></td>
 		</tr>
 		<% end %>

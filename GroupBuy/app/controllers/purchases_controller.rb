@@ -3,23 +3,6 @@ class PurchasesController < ApplicationController
   before_filter :login_required
   before_filter :venmo_required
 
-  # Enums for state
-  MINIMUM_NOT_MET = 1
-  MINIMUM_MET = 2
-  CONFIRMED = 3
-  
-  def is_minimum_not_met?
-    self.state == MINIMUM_NOT_MET
-  end
-  
-  def is_minimum_met?
-    self.state == MINIMUM_MET
-  end
-  
-  def is_confirmed?
-    self.state == CONFIRMED
-  end
-
   # GET /purchases
   # GET /purchases.json
   def index
@@ -58,6 +41,7 @@ class PurchasesController < ApplicationController
   # POST /purchases.json
   def create
     @purchase = Purchase.new(purchase_params)
+    @purchase.state = 1
     @purchase.current_total_price = 0
     @purchase.user_id = current_user.id
     @purchase.group = params[:group_select]
@@ -84,7 +68,6 @@ class PurchasesController < ApplicationController
     end
     respond_to do |format|
       if @purchase.update(purchase_params)
-        puts "ALKFSDF ==================" + params[:payment_price].to_s()
         @purchase.get_current_user_payment(current_user).update(
           :price => params[:payment_price],
           :description => params[:payment_description])

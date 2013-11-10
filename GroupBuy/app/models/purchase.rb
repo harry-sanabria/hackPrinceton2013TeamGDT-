@@ -34,7 +34,32 @@ class Purchase < ActiveRecord::Base
       total = total + payment.price
     end
     self.current_total_price = total
+    if total >= self.min_price
+      self.state = 2
+    end
     self.save
     return
+  end
+  
+  # Enums for state
+  MINIMUM_NOT_MET = 1
+  MINIMUM_MET = 2
+  CONFIRMED = 3
+  CHARGED = 4
+  
+  def is_minimum_not_met?
+    return self.state == MINIMUM_NOT_MET
+  end
+  
+  def is_minimum_met?
+    return self.state == MINIMUM_MET
+  end
+  
+  def is_confirmed?
+    return self.state == CONFIRMED
+  end
+  
+  def is_charged?
+    return self.state == CHARGED
   end
 end
