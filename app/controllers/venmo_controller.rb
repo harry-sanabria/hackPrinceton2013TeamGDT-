@@ -97,13 +97,14 @@ class VenmoController < ApplicationController
       
       resp = Net::HTTP.post_form(url, post_args)
       if not resp.body['error'].blank?
+        puts '---------------------',resp.body['error'],'------------------------'
         errors += 1
       end
     end
-    if errors.nil?
-      redirect_to current_user, notice: "Confirmation complete, with #{pluralize(errors, "error")}..."
+    if errors
+      redirect_to current_user, notice: "Purchase finalized, but with #{pluralize(errors, "error")}..."
     else
-      redirect_to current_user, notice: "Purchase Finalized!  Charges were sent out to everyone involved."
+      redirect_to current_user, notice: "Purchase finalized! Charges have been sent to those who joined."
     end
   end
   
