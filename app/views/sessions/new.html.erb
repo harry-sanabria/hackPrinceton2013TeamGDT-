@@ -1,8 +1,8 @@
 <% if current_user %>
 	<h1>You are currently logged in as <%= current_user.name %>. </h1>
-	<%= button_to 'Go to your profile.', current_user, :method=>:get, :class => "btn btn-primary"  %>
+	<%= button_to 'Go to your Profile', current_user, :method=>:get, :class => "btn btn-primary"  %>
 <%else%>
-	<h1>Please log in with your Facebook account!</h1>
-	<%= button_to 'Sign in to Facebook.', "/auth/facebook", :method=>:get, :class => "btn btn-primary"  %>
+	<h1>Please log in using your Facebook account!</h1>
+	<%= button_to 'Sign in to Facebook', "/auth/facebook", :method=>:get, :class => "btn btn-primary"  %>
 <% end %>
 

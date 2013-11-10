@@ -1,44 +1,5 @@
 <div class="wrapper">
-  <div class="left">
-    <h1>Purchase Details</h1>
-    <div class="text">
-      <strong>Title: </strong><br>
-      <%= @purchase.title %>
-      <br>
-      <strong>Description: </strong><br>
-      <%= @purchase.description %>
-      <br>
-      <strong>Shared with: </strong><br>
-      <%= @purchase.group %>
-      <br>
-      <strong>Minimum price: </strong><br>
-      <%= dollars(@purchase.min_price) %>
-      <br>
-      <strong>Current total price: </strong><br>
-      <%= dollars(@purchase.current_total_price) %>
-      <br>Price remaining: </strong><br>
-      <%= dollars(@purchase.get_remaining_price()) %>
-      <br>
-      <strong>Deadline: </strong><br>
-      <%= @purchase.deadline %>
-      
-      <hr>
-
-      <% if current_user.id == @purchase.user_id %>
-        <% if @purchase.is_accepting_payments? %>
-          <%= button_to "Edit Purchase", edit_purchase_path(@purchase), :method=>:get, :class => "btn btn-primary" %>
-        <% end %>
-        <% if @purchase.is_minimum_met? %>
-          Close purchase to other users.
-          <%= button_to "Close Purchase", close_purchase_path(@purchase), :method=>:get, :class => "btn btn-primary" %>
-        <% elsif @purchase.is_closed? %>
-          <%= button_to "Finalize", finalize_purchase_path(@purchase), :method=>:get, :class => "btn btn-primary" %>
-        <% end %>
-      <% end %>
-    </div>
-
-
-  </div>
+  <%= render 'details' %>
 
   <div class="right">
     <div class="text">
@@ -79,7 +40,8 @@
         </div>
         
       <% end %>
-
+	  <br>
+	  <hr>
       <%= link_to 'Back', @purchase %> |
       <%= link_to 'My Purchases', purchases_path %>
     </div>

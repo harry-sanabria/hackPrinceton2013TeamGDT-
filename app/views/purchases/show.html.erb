@@ -1,48 +1,6 @@
 <% provide(:title, 'Purchase') %>
 <div class="wrapper">
-  <div class="left">
-    <h1>Purchase Details</h1>
-    <div class="text">
-    	<strong>Title: </strong>
-      <%= @purchase.title %>
-      <br>
-    	<strong>Description: </strong>
-    	<%= @purchase.description %>
-      <br>
-    	<strong>Shared with: </strong>
-    	<%= @purchase.group %>
-      <br>
-    	<strong>Minimum price: </strong>
-    	<%= dollars(@purchase.min_price) %>
-      <br>
-    	<strong>Current total price: </strong>
-    	<%= dollars(@purchase.current_total_price) %>
-      <br>
-    	<strong>Price remaining: </strong>
-    	<%= dollars(@purchase.get_remaining_price()) %>
-      <br>
-    	<strong>Deadline: </strong>
-    	<%= @purchase.deadline %>
-      
-      <hr>
-
-      <% if current_user.id == @purchase.user_id %>
-        <% if @purchase.is_accepting_payments? %>
-          <%= link_to "Edit the details of this purchase", edit_purchase_path(@purchase) %>
-        <% end %>
-        <% if @purchase.is_minimum_met? %>
-          <hr>
-          <p>Click here to close this purchase to new users.</p>
-          <%= button_to "Close Purchase", close_purchase_path(@purchase) %>
-          <hr>
-        <% elsif @purchase.is_closed? %>
-          <%= button_to "Finalize", finalize_purchase_path(@purchase) %>
-        <% end %>
-      <% end %>
-    </div>
-
-
-  </div>
+  <%= render 'details' %>
 
   <div class="right">
     <% if !current_user.payments.where(:purchase_id => @purchase.id).any? && @purchase.is_accepting_payments?%>
@@ -80,7 +38,7 @@
         </center>
         <br>
         <% if @purchase.is_accepting_payments? %>
-          <%= link_to "Edit how much you pay", purchase_edit_payment_path(@purchase.id) %>
+          <%= button_to "Edit Contribution", purchase_edit_payment_path(@purchase.id), :method=>:get, :class=>"btn btn-primary" %>
         <% end %>
       </div>
     <% end %>
