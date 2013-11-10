@@ -14,11 +14,36 @@
         <br>     
         <strong>Your payment description:</strong>
         <%= @purchase.get_current_user_payment(current_user).description %>
-        <br>
+        <br><br>
         <% if @purchase.is_accepting_payments? %>
           <%= button_to "Edit Contribution", purchase_edit_payment_path(@purchase.id), :method=>:get, :class=>"btn btn-primary" %>
         <% end %>
       </div>
+    <% end %>
+    
+    <% if current_user.id == @purchase.user_id %>
+        <hr>
+    	<h1>All Contributions</h1>
+        <center>
+          <table border="1" style="table-layout: fixed; width=300px;">
+            <thead>
+              <tr>
+                <th width="40%">User</th>
+                <th width="60%">Payment</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <% @purchase.payments.each do |payment| %>
+
+              <tr>
+                <td><%= User.find(payment.user_id).name %></td>
+                <td><%= dollars(payment.price) %></td>
+              </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </center>
     <% end %>
 
   </div>

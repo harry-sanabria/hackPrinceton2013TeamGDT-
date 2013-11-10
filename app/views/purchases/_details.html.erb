@@ -21,39 +21,23 @@
       <strong>Deadline: </strong><br>
       <%= @purchase.deadline %>
       <br>
-      <strong>Current contributors: </strong>
-        <center>
-          <table border="1">
-            <thead>
-              <tr>
-                <th>User</th>
-                <th>Payment</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              <% @purchase.payments.each do |payment| %>
-
-              <tr>
-                <td><%= User.find(payment.user_id).name %></td>
-                <td><%= dollars(payment.price) %></td>
-              </tr>
-              <% end %>
-            </tbody>
-          </table>
-        </center>
- 
-      
-      <hr>
+      <strong>Current contributors: </strong><br>
+      <% @purchase.payments.each do |payment| %>
+          <%= User.find(payment.user_id).name %><br>
+      <% end %>
+      <br>
 
       <% if current_user.id == @purchase.user_id %>
         <% if @purchase.is_accepting_payments? %>
+          <hr>
           <%= button_to "Edit Purchase", edit_purchase_path(@purchase), :method=>:get, :class => "btn btn-primary" %>
         <% end %>
         <% if @purchase.is_minimum_met? %>
+          <hr>
           Close purchase to other users.
           <%= button_to "Close Purchase", close_purchase_path(@purchase), :class => "btn btn-primary" %>
         <% elsif @purchase.is_closed? %>
+          <hr>
           <%= button_to "Finalize", finalize_purchase_path(@purchase), :class => "btn btn-primary" %>
         <% end %>
       <% end %>
