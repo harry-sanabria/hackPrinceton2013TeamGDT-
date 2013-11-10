@@ -17,7 +17,7 @@ GroupBuy::Application.routes.draw do
   resources :purchases
   put '/purchases/:id/show', to: 'purchases#join_purchase', as: 'join_purchase'
 
-
+  
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

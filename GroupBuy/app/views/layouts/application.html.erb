@@ -36,6 +36,13 @@
 							<li>
 								<%= link_to "Log out", log_out_path, :class=>"navbar-link" %>
 							</li>
+    							<% if current_user.venmo.blank? %>
+      								Please attach a Venmo Account!
+      								<%= link_to "Authenticate", "/venmo/authenticate" %>
+    							<% else %>
+      								Your Venmo account is currently <%= current_user.venmo.username %>.
+      								<%= link_to "Not you?", "/venmo/authenticate" %>
+    							<% end %>
 
 							<% else %>
 							<li>

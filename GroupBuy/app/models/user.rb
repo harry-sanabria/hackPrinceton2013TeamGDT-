@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
 
   has_many :payments, dependent: :destroy
   has_many :purchases, :through => :payments
+  has_one :venmo, dependent: :destroy
 
   def self.authenticate(auth)
     where(auth.slice(:provider, :uid)).first_or_initialize.tap do |user|

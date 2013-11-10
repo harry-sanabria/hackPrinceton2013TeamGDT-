@@ -48,4 +48,14 @@ ActiveRecord::Schema.define(version: 20131110024025) do
     t.string   "image_url"
   end
 
+  create_table "venmos", force: true do |t|
+    t.integer  "user_id"
+    t.string   "username"
+    t.string   "venmo_id"
+    t.string   "refresh_code"
+    t.string   "token"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
 end
