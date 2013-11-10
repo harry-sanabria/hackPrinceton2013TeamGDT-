@@ -32,7 +32,6 @@ h1 {
   font-size: 26px;
   margin-bottom: 20px;
   margin-top: 10px;
-  text-align: left;
   font-family: Arial;
 }
 
@@ -64,4 +63,35 @@ th, td {
 
 .field {
   padding: 5px;
+}
+
+a:visited, a:link {
+  color: #0044cc;
+  text-decoration: underline;
+}
+
+a:hover, a:active {
+  color: #BA0E09;
+  cursor: hand;
+  font-style: italic;
+}
+
+hr {
+  width: 50%;
+  height: 3px;
+  border-color: #999999;
+  border-top: none;
+  margin: 10px 0px;
+}
+
+.buttonwrapper form.button_to {
+  float: left;
+  margin: 5px 0px;
+}
+
+.buttonwrapper {
+  display: inline-block;
+  text-align: center;
+  margin: 0px auto 0px auto;
+  overflow: auto;
 }
