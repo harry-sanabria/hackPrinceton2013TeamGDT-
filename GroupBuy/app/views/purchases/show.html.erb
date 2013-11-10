@@ -83,8 +83,11 @@
 <% end %>
 
 <% if current_user.id == @purchase.user_id%>
-  <h1>This is a magical link.</h1>
+  <hr>
+  <h3>This is a magical link.</h3>
 
   <%= link_to "Confirm Purchase", "/venmo/charge?purchase_id=#{@purchase.id}"%>
-  <%= link_to 'Back', root_path %>
+  <hr>
 <% end %>
+
+<%= link_to 'Back', root_path %>

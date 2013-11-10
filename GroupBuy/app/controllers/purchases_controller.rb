@@ -3,6 +3,23 @@ class PurchasesController < ApplicationController
   before_filter :login_required
   before_filter :venmo_required
 
+  # Enums for state
+  MINIMUM_NOT_MET = 1
+  MINIMUM_MET = 2
+  CONFIRMED = 3
+  
+  def is_minimum_not_met?
+    self.state == MINIMUM_NOT_MET
+  end
+  
+  def is_minimum_met?
+    self.state == MINIMUM_MET
+  end
+  
+  def is_confirmed?
+    self.state == CONFIRMED
+  end
+
   # GET /purchases
   # GET /purchases.json
   def index
