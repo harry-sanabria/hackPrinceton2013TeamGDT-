@@ -145,13 +145,17 @@ class PurchasesController < ApplicationController
       payment.user_id = current_user.id
       payment.price = params[:price]
       payment.description = params[:description]
-      payment.save
+      saved = payment.save
 
       # update current total price for this payment
       @purchase.update_current_total_price()
-
-      format.html { redirect_to @purchase, notice: 'Successfully joined purchase!' }
-      format.json { render action: 'show', status: :created, location: @purchase }
+      if saved
+        format.html { redirect_to @purchase, notice: 'Successfully joined purchase!' }
+        format.json { render action: 'show', status: :created, location: @purchase }
+      else
+        format.html { redirect_to @purchase, notice: 'Unable to join, please try again.' }
+        format.json { render action: 'show', status: :created, location: @purchase }
+      end
      end
   end
 
