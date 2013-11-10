@@ -30,8 +30,7 @@ h1, h2, h3, h4, h5, h6 {
 
 h1 {
   font-size: 26px;
-  margin-bottom: 20px;
-  margin-top: 10px;
+  margin: 10px 0px;
   font-family: Arial;
 }
 
@@ -81,12 +80,12 @@ hr {
   height: 3px;
   border-color: #999999;
   border-top: none;
-  margin: 10px 0px;
+  margin: 10px 0px 20px 0px;
 }
 
 .buttonwrapper form.button_to {
   float: left;
-  margin: 5px 0px;
+  margin: 5px;
 }
 
 .buttonwrapper {
@@ -94,4 +93,33 @@ hr {
   text-align: center;
   margin: 0px auto 0px auto;
   overflow: auto;
+}
+
+.text {
+  display: inline-block;
+  padding: 5px 0px;
+  line-height: 20px;
+  font-size: 14px;
+}
+
+.offset2 {
+  margin-left: 200px;
+}
+
+.left {
+  float: left;
+  padding: 5px;
+}
+
+.right {
+  float: left;
+  margin-left: 40px;
+  padding: 5px 5px 5px 50px;
+  border-left: 1px solid black;
+}
+
+.wrapper {
+  overflow: auto;
+  height: 100%;
+  width: 100%;
 }
