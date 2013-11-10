@@ -1,5 +1,69 @@
 <% provide(:title, 'Purchase') %>
 
+<p>
+	<strong>Title: </strong>
+  	<%= @purchase.title %>
+</p>
+
+<p>
+	<strong>Description: </strong>
+	<%= @purchase.description %>
+</p>
+
+<p>
+	<strong>Shared with: </strong>
+	<%= @purchase.group %>
+</p>
+
+<p>
+	<strong>Minimum price: </strong>
+	<%= "$#{@purchase.min_price}" %>
+</p>
+
+<p>
+	<strong>Current total price: </strong>
+	<%= "$#{@purchase.current_total_price}" %>
+</p>
+
+<p>
+	<strong>Price remaining: </strong>
+	<%= "$#{@purchase.get_remaining_price()}" %>
+</p>
+
+<p>
+	<strong>Deadline: </strong>
+	<%= @purchase.deadline %>
+</p>
+
+<h2>Contributors</h2>
+<p>
+	<strong>You owe: </strong>
+	<%= "$#{@purchase.get_current_user_payment(current_user).price}" %>
+</p>
+
+  <p>
+    <strong>Your payment description:</strong>
+    <%= @purchase.get_current_user_payment(current_user).description %>
+  </p>
+
+  <table border="1">
+    <thead>
+      <tr>
+        <th>User</th>
+        <th>Payment</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @purchase.payments.each do |payment| %>
+      <tr>
+        <td><%= link_to User.find(payment.user_id).name, User.find(payment.user_id) %></td>
+        <td><%= "$#{payment.price}" %></td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+
 <h1><%= @purchase.title %></hi><br>
 
 <% if !current_user.payments.where(:purchase_id => @purchase.id).any? %>
@@ -31,74 +95,6 @@
       <%= f.submit %>
     </div>
   <% end %>
-
-<% else %>
-  <%= link_to 'Edit how much you pay', edit_purchase_path(@purchase) %> <br>
-
-  <p>
-  	<strong>Purchase:</strong>
-  	<%= @purchase.title %>
-  </p>
-
-  <p>
-    <strong>Description:</strong>
-    <%= @purchase.description %>
-  </p>
-
-  <p>
-    <strong>Shared with:</strong>
-    <%= @purchase.group %>
-  </p>
-
-  <p>
-  	<strong>Minimum price:</strong>
-  	<%= "$#{@purchase.min_price}" %>
-  </p>
-
-  <p>
-    <strong>Current total price:</strong>
-    <%= "$#{@purchase.current_total_price}" %>
-  </p>
-
-  <p>
-    <strong>Price remaining:</strong>
-    <%= "$#{@purchase.get_remaining_price()}" %>
-  </p>
-
-  <p>
-    <strong>Deadline:</strong>
-    <%= @purchase.deadline %>
-  </p>
-
-  <h2>Contributors</h2>
-  <p>
-  	<strong>You owe:</strong>
-    <%= "$#{@purchase.get_current_user_payment(current_user).price}" %>
-  </p>
-
-  <p>
-    <strong>Your payment description:</strong>
-    <%= @purchase.get_current_user_payment(current_user).description %>
-  </p>
-
-  <table border="1">
-    <thead>
-      <tr>
-        <th>User</th>
-        <th>Payment</th>
-      </tr>
-    </thead>
-
-    <tbody>
-      <% @purchase.payments.each do |payment| %>
-      <tr>
-        <td><%= link_to User.find(payment.user_id).name, User.find(payment.user_id) %></td>
-        <td><%= "$#{payment.price}" %></td>
-      </tr>
-      <% end %>
-    </tbody>
-  </table>
-
 <% end %>
 
 <% if current_user.id == @purchase.user_id %>
