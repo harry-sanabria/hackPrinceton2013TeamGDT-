@@ -3,35 +3,7 @@
 <h1><%= @purchase.title %></hi><br>
 
 <% if !current_user.payments.where(:purchase_id => @purchase.id).any? %>
-  <h1>Join this purchase!</h1>
-
-  <%= form_for(@purchase, :method => :put, :url => join_purchase_path(@purchase)) do |f| %>
-    <% if @purchase.errors.any? %>
-      <div id="error_explanation">
-        <h2><%= pluralize(@purchase.errors.count, "error") %> prohibited this purchase from being saved:</h2>
-
-        <ul>
-        <% @purchase.errors.full_messages.each do |msg| %>
-          <li><%= msg %></li>
-        <% end %>
-        </ul>
-      </div>
-    <% end %>
-
-    <div class="field">
-      <%= label_tag "Price" %><br>
-      <%= number_field_tag "price", :min => 0 %>
-    </div>
-    <div class="field">
-      <%= label_tag "Description" %><br>
-      <%= text_field_tag "description" %>
-    </div>
-
-    <div class="actions">
-      <%= f.submit %>
-    </div>
-  <% end %>
-
+  <%= render "join" %>
 <% else %>
   <%= link_to 'Edit how much you pay', edit_purchase_path(@purchase) %> <br>
 
