@@ -53,6 +53,7 @@ class PurchasesController < ApplicationController
     @purchase.current_total_price = 0
     @purchase.user_id = current_user.id
     @purchase.group = params["selected_group_name"]
+    @purchase.group_id = params["group_select"]
 
     respond_to do |format|
       if @purchase.save
@@ -160,12 +161,10 @@ class PurchasesController < ApplicationController
 
   def facebook_post_confirm
     @purchase = Purchase.find(params[:id])
-    puts "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n >>>>>>>>>>>>>>>>>>>OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO"
     if @purchase.payments.size != 0
       flash[:notice] = "A facebook post has already been sent out!"
       redirect_to @purchase
       return
-
     end
   end
 
