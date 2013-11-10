@@ -9,12 +9,12 @@
   <% if current_user %>
     Logged in as <%= current_user.name %>. | 
     <%= link_to "Log out", log_out_path %> |
-    <% if current_user.venmo_code.blank? %>
+    <% if current_user.venmo.blank? %>
       Please attach a Venmo Account!
       <%= link_to "Authenticate", "/venmo/authenticate" %>
     <% else %>
-      Your Venmo account is currently <%= current_user.venmo_username %>.
-      <%= link_to "Not him?", "/venmo/authenticate" %>
+      Your Venmo account is currently <%= current_user.venmo.username %>.
+      <%= link_to "Not you?", "/venmo/authenticate" %>
     <% end %>
   <% else %>
     <%= link_to "Sign in with Facebook", "/auth/facebook", id: "sign_in" %>
