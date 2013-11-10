@@ -20,34 +20,33 @@
 					<div class="nav-collapse collapse">
 						<ul class="nav nav-pills pull-right ">
 							<% if current_user %>
-                                                        <li>
-								<img src=<%=current_user.image_url%> />
-							</li>
-
-							<li>
+                            <li>
+								<img src=<%= current_user.image_url %> />
+							</li><li>
+								<p class="navbar-text">|</p>
+							</li><li>
 								<p class="navbar-text">
-
 									<%= link_to current_user.name, current_user, :class=>"navbar-link" %>
 								</p>
 							</li>
 							<li>
-								<%= link_to "View Purchases", root_url+"purchases" , :class=>"navbar-link"%>
+								<%= link_to "View Purchases", "#{::DOMAIN}purchases", :class=>"navbar-link"%>
 							</li>
     							<% if current_user.venmo.blank? %>
 								<li>
-      								  <p class="navbar-text">| Please attach a Venmo Account! </p>
+      								  <p class="navbar-text">| Please attach a Venmo Account!</p>
 								</li><li>
       								  <%= link_to "Authenticate", "/venmo/authenticate" %>
 								</li><li>
-									  <p class="navbar-text"> |</p>
+									  <p class="navbar-text">|</p>
 								</li>
     							<% else %>
 								<li>
-      								  <p class="navbar-text">| Venmo: <%= current_user.venmo.username %>. </p>
+      								  <p class="navbar-text">| Venmo: <%= current_user.venmo.username %>.</p>
 								</li><li>
       								  <%= link_to "Not you?", "/venmo/authenticate" %>
 								</li><li>
-									  <p class="navbar-text"> |</p>
+									  <p class="navbar-text">|</p>
 								</li>
     							<% end %>
 							<li>
