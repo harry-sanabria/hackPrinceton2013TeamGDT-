@@ -11,6 +11,9 @@ $(function() {
       FB.api('/me/groups', {access_token: facebook_token.value}, function(response) {
         groupObjs = eval(response)["data"];
         for (var i=0; i<groupObjs.length; i++) {
+          if (i == 0) {
+            $("#selected_group_name").val(groupObjs[i]["name"]);
+          }
           groups.push('<option value="'+ groupObjs[i]["id"] +'">'+ groupObjs[i]["name"] +'</option>');
         }
         $("#group_select").html(groups.join(''));
@@ -25,7 +28,6 @@ $(function() {
       FB.api('/'+group_id.value+'/feed', 'post', {access_token: confirmation_page_token.value, link: link, message: message})
     }
   });
-
   $("#group_select").change(function (eventObj) {
     $("#selected_group_name").val($(this).find('option:selected').text());
   });
