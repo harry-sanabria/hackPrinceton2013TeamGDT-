@@ -12,7 +12,6 @@
 			<th>Title</th>
 			<th>Minimum</th>
 			<th>Progress</th>
-			<th>You owe</th>
 			<th>Status</th>
 		</tr>
 	</thead>
@@ -23,7 +22,6 @@
 			<td><%= link_to "#{purchase.title}", purchase %></td>
 			<td><%= "$%.2f" % purchase.min_price %></td>
 			<td><%= "$%.2f" % purchase.current_total_price %></td>
-			<td><%= "$%.2f" % purchase.get_current_user_payment(current_user).price %></td>
 			<td><% if purchase.is_minimum_not_met? %>Pending
 				<% elsif purchase.is_minimum_met? %>Ready
 				<% elsif purchase.is_confirmed? %>Complete
