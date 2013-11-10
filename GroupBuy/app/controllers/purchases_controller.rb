@@ -45,13 +45,12 @@ class PurchasesController < ApplicationController
     @purchase = Purchase.new(purchase_params)
     @purchase.current_total_price = 0
     @purchase.user_id = current_user.id
-    @purchase.group = params[:purchase][:group_select]
+    @purchase.group = params[:group_select]
 
     respond_to do |format|
       if @purchase.save
-        #puts "asgl;adskhfl;khgalds;khfsda;HIHIHIHIHIHIHIHIHI"
-        format.html { redirect_to @purchase, notice: 'Purchase was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @purchase }
+        format.html { redirect_to purchase_confirm_post_path(@purchase), notice: 'Purchase was successfully created.' }
+        format.json { render action: 'facebook_post_confirmed', status: :created, location: @purchase }
       else
         format.html { render action: 'new' }
         format.json { render json: @purchase.errors, status: :unprocessable_entity }
@@ -122,7 +121,7 @@ class PurchasesController < ApplicationController
      end
   end
 
-  def facebook_post_confirmed
+  def facebook_post_confirm
     @purchase = Purchase.find(params[:id])
   end
 
