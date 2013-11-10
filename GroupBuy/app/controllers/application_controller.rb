@@ -19,19 +19,6 @@ class ApplicationController < ActionController::Base
   def dollars(str)
     return "$%.2f" % str
   end
-  
-  helper_method :get_status
-  def get_status(purchase)
-    if purchase.is_minimum_not_met?
-      return "Pending"
-    elsif purchase.is_minimum_met?
-      return "Minimum Reached"
-    elsif purchase.is_closed?
-      return "Closed"
-    elsif purchase.is_finalized?
-      return "Complete"
-    end
-  end
 
   # Checks to see if a user has logged in, if not, restrict access by redirecting
   # to homepage and give a notification

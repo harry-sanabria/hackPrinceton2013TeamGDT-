@@ -23,7 +23,7 @@
 			<td><%= link_to "#{purchase.title}", purchase %></td>
 			<td><%= dollars(purchase.min_price) %></td>
 			<td><%= dollars(purchase.current_total_price) %></td>
-			<td><%= get_status(@purchase) %></td>
+			<td><%= get_status(purchase) %></td>
 		</tr>
 		<% end %>
 	</tbody>
