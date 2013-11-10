@@ -57,7 +57,7 @@ class PurchasesController < ApplicationController
 
     respond_to do |format|
       if @purchase.save
-        format.html { redirect_to purchase_confirm_post_path(@purchase), notice: 'Purchase was successfully created.' }
+        format.html { redirect_to purchase_confirm_post_path(@purchase)}
         format.json { render action: 'facebook_post_confirmed', status: :created, location: @purchase }
       else
         format.html { render action: 'new' }
