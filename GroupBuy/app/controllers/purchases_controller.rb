@@ -1,5 +1,5 @@
 class PurchasesController < ApplicationController
-  before_action :set_purchase, only: [:show, :edit, :update, :destroy, :add_users, :update_to_add_users]
+  before_action :set_purchase, only: [:show, :edit, :update, :destroy, :add_users, :update_to_add_users, :close, :finalize, :submit_finalize]
   before_filter :login_required
   before_filter :venmo_required
 
@@ -140,7 +140,6 @@ class PurchasesController < ApplicationController
   end
   
   def close
-    @purchase = Purchase.find(params[:id])
     #set state to closed
     @purchase.state = 3
     if @purchase.save
@@ -149,6 +148,9 @@ class PurchasesController < ApplicationController
         format.json { render action: 'show', status: :created, location: @purchase }
       end
     end
+  end
+
+  def finalize
   end
 
   private
