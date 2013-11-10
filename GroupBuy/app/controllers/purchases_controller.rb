@@ -131,7 +131,15 @@ class PurchasesController < ApplicationController
   end
   
   def close
-    
+    @purchase = Purchase.find(params[:id])
+    #set state to closed
+    @purchase.state = 3
+    if @purchase.save
+      respond_to do |format|
+        format.html { redirect_to @purchase, notice: 'Closed purchase.' }
+        format.json { render action: 'show', status: :created, location: @purchase }
+      end
+    end
   end
 
   private
