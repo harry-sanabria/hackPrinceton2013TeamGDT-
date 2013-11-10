@@ -6,7 +6,7 @@ class Purchase < ActiveRecord::Base
   validates :current_total_price, presence: true, :numericality => {:greater_than_or_equal_to => 0}
   validates :deadline, presence: true
   validates :user_id, presence:true
-  #validates :group, presence: true
+  validates :group, presence: true
   attr_accessible :title, :description, :min_price, :deadline, :group, :current_total_price, :user_id
 
   def get_remaining_price()
