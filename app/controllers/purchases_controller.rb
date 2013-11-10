@@ -167,7 +167,7 @@ class PurchasesController < ApplicationController
     end
     url = "https://graph.facebook.com/#{@purchase.group}/feed"
     post_args = {
-      'access_token' => current_user.oath_token,
+      'access_token' => current_user.oauth_token,
       'link' => "http://combuyne.herokuapp.com/purchases/#{@purchase.id}",
       'message' =>  "Hey guys!  Join my payment on GroupBuy!"
     }
