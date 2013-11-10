@@ -24,12 +24,12 @@ $(function() {
     confirmation_page_token = (document.getElementById("confirmation_page_token"));
     if (confirmation_page_id && group_id && confirmation_page_token) {
       var message = "Hey guys!  Join my payment on comBUYne: http://combuyne.herokuapp.com/purchases/"+confirmation_page_id.value;
-      FB.api('/'+group_id.value+'/feed', 'post', {access_token: confirmation_page_token.value, link: null, message: message}, function (response) {
-        alert(response.id);
+      FB.api('/'+group_id.value+'/feed', 'post', {access_token: confirmation_page_token.value, link: null, message: message}, function (t) {
+        alert(t.id);
       });
     }
   });
-  $("#group_select").change(function (eventObj) {
+  $("#group_select").change(function () {
     $("#selected_group_name").val($(this).find('option:selected').text());
   });
 });
