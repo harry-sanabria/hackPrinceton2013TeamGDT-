@@ -85,7 +85,7 @@ class VenmoController < ApplicationController
         'access_token' => valid_token(current_user.venmo),
         'user_id' => User.find_by_id(payment.user_id).venmo.user_id,
         'note' => "From #{current_user.venmo.username} for purchase: #{purchase.title}. Pickup info: #{params[:pickup_details]}",
-        'amount' => "%.2f" % -1.0 * payment.price / params[:final_price].to_f,
+        'amount' => "%.2f" % (-1.0 * payment.price / params[:final_price].to_f),
         'audience' => 'private'
       }
       
@@ -96,7 +96,7 @@ class VenmoController < ApplicationController
         errors += 1
       end
     end
-    if errors
+    if errors > 0
       redirect_to current_user, notice: "Purchase finalized, but with #{errors} errors... Contact admin for details."
     else
       redirect_to current_user, notice: "Purchase finalized! Charges have been sent to those who joined."
