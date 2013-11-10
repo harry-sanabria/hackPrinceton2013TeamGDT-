@@ -5,7 +5,7 @@
 <br><br>
 
 <input type="hidden", id="group_id", value=<%= @purchase.group_id %> />
-<input type="hidden", id="purchase_title", value=<%= @purchase.title %> />
+<input type="hidden", id="purchase_title", value="<%= @purchase.title %>" />
 <input type="hidden", id="confirmation_purchase_id", value=<%= @purchase.id %> />
 <input type="hidden", id="confirmation_page_token", value=<%= current_user.oauth_token %> />
 <%= button_to "View Purchase", purchase_path(@purchase), :method=>:get, :class=>"btn btn-primary"%>
