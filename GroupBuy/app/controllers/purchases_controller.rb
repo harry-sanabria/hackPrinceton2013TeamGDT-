@@ -1,5 +1,5 @@
 class PurchasesController < ApplicationController
-  before_action :set_purchase, only: [:show, :edit, :update, :destroy, :add_users, :update_to_add_users, :close, :finalize, :submit_finalize]
+  before_action :set_purchase, only: [:show, :edit, :edit_payment, :update, :update_payment, :destroy, :add_users, :update_to_add_users, :close, :finalize, :submit_finalize]
   before_filter :login_required
   before_filter :venmo_required
 
@@ -43,7 +43,6 @@ class PurchasesController < ApplicationController
       redirect_to current_user
       return
     end
-    @purchase = Purchase.find_by_id(params[:id])
   end
 
   # POST /purchases
@@ -162,11 +161,6 @@ class PurchasesController < ApplicationController
   def facebook_post_confirm
     @purchase = Purchase.find(params[:id])
   end
-  
-  def edit_payment
-    
-  end
-
 
   def close
     #set state to closed
@@ -185,7 +179,7 @@ class PurchasesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_purchase
-      @purchase = Purchase.find(params[:id])
+      @purchase = Purchase.find_by_id(params[:id])
     end
 
     def purchase_params
