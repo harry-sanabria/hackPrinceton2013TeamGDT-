@@ -13,32 +13,32 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :title %><br>
+    <%= f.label :title %>
     <%= f.text_field :title %>
   </div>
   <div class="field">
-    <%= f.label :description %><br>
+    <%= f.label :description %>
     <%= f.text_field :description %>
   </div>
   <div class="field">
-    <%= f.label :min_price %><br>
+    <%= f.label :min_price, "Minimum Price" %>
     <%= f.number_field :min_price, :min => 0 %>
   </div>
   <div class="field">
-    <%= f.label :deadline %><br>
+    <%= f.label :deadline %>
     <%= f.text_field :deadline %>
   </div>
   <div class="field">
-    <%= f.hidden_field :id %>
-  </div>
-  <div>
     <input type="hidden", id="facebook_token", value=<%=current_user.oauth_token%>>
-  </div>
-  <div class="field">
+
     <%= label_tag "group", "Share with Facebook group" %>
     <%= select_tag "group_select", :required => true%>
   </div>
 
+  <div>
+    <%= f.hidden_field :id %>
+  </div>
+  
   <div class="actions">
     <%= f.submit :id => "new_purchase_submit"%>
   </div>

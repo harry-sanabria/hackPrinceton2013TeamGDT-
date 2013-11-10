@@ -1,15 +1,16 @@
-<!--created by Yihua (liyihua@mit.edu) and Harry (sanabria@mit.edu)-->
-
 <% provide(:title, 'Your Purchases') %>
 
-<h4>You have <%= pluralize(@purchases.count, "purchase") %></h4>
+<h4>You have <%= pluralize(@purchases.count, "purchase") %>.<br>
+	You have <%= pluralize(current_user.payments.count, "payment") %>.</h4>
 
 <%= button_to "Create a New Purchase", new_purchase_path, :method=>:get,:class => "btn btn-primary"%>
 
+<hr>
+<h2>Your Created Purchases</h2>
 <table border="1">
 	<thead>
 		<tr>
-			<th>Title</th>
+			<th>Payment Title</th>
 			<th>Minimum</th>
 			<th>Progress</th>
 			<th>Status</th>
@@ -21,6 +22,35 @@
 		<tr>
 			<td><%= link_to "#{purchase.title}", purchase %></td>
 			<td><%= "$%.2f" % purchase.min_price %></td>
+			<td><%= "$%.2f" % purchase.current_total_price %></td>
+			<td><% if purchase.is_minimum_not_met? %>Pending
+				<% elsif purchase.is_minimum_met? %>Ready
+				<% elsif purchase.is_confirmed? %>Complete
+				<% end %></td>
+		</tr>
+		<% end %>
+	</tbody>
+</table>
+
+<h2>Your Payments</h2>
+<table border="1">
+	<thead>
+		<tr>
+			<th>Payment Title</th>
+			<th>Minimum</th>
+			<th>Your Contribution</th>
+			<th>Progress</th>
+			<th>Status</th>
+		</tr>
+	</thead>
+
+	<tbody>
+		<% current_user.payments.each do |payment| %>
+		<% purchase = Purchase.find(payment.purchase_id) %>
+		<tr>
+			<td><%= link_to "#{purchase.title}", purchase %></td>
+			<td><%= "$%.2f" % purchase.min_price %></td>
+			<td><%= "$%.2f" % payment.price %></td>
 			<td><%= "$%.2f" % purchase.current_total_price %></td>
 			<td><% if purchase.is_minimum_not_met? %>Pending
 				<% elsif purchase.is_minimum_met? %>Ready

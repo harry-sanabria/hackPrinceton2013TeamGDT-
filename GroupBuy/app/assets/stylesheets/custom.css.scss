@@ -29,19 +29,27 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 {
-  font-size: 3em;
-  letter-spacing: -2px;
-  margin-bottom: 30px;
-  text-align: center;
+  font-size: 26px;
+  margin-bottom: 20px;
+  margin-top: 10px;
+  text-align: left;
+  font-family: Arial;
 }
 
 h2 {
   font-size: 1.2em;
-  letter-spacing: -1px;
-  margin-bottom: 30px;
-  text-align: center;
+  margin-top: 30px;
+  margin-bottom: 10px;
+  text-align: left;
   font-weight: normal;
-  color: #999;
+  color: #696969;
+}
+
+h4 {
+  font-size: 18px;
+  font-weight: bold;
+  text-align: left;
+  line-height: 30px;
 }
 
 p {
@@ -52,4 +60,8 @@ p {
 th, td {
   padding: 5px;
   text-align: center;
+}
+
+.field {
+  padding: 5px;
 }
