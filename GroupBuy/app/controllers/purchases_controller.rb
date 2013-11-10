@@ -29,7 +29,7 @@ class PurchasesController < ApplicationController
   # GET /purchases/1/edit
   def edit
     # Prevents unauthorized access by other users
-    if !current_user.purchases.where(:id => params[:id]).any?
+    if current_user.id != @purchase.user_id
       flash[:notice] = "You don't have permission to view that page!"
       redirect_to current_user
       return
@@ -38,7 +38,7 @@ class PurchasesController < ApplicationController
   
   def edit_payment
     # Prevents unauthorized access by other users
-    if !current_user.payments.where(:purchase_id => params[:id]).any?
+    if !current_user.payments.where(:purchase_id => @purchase.id).any?
       flash[:notice] = "You don't have permission to view that page!"
       redirect_to current_user
       return
@@ -69,7 +69,7 @@ class PurchasesController < ApplicationController
   # PATCH/PUT /purchases/1.json
   def update
     # Prevents unauthorized access by other users
-    if !current_user.payments.where(:purchase_id => @purchase.id).any?
+    if current_user.id != @purchase.user_id
       flash[:notice] = "You don't have permission to view that page!"
       redirect_to current_user
       return
@@ -116,7 +116,7 @@ class PurchasesController < ApplicationController
   # DELETE /purchases/1.json
   def destroy
     # Prevents unauthorized access by other users
-    if !current_user.purchases.where(:id => @purchase.id).any?
+    if current_user.id != @purchase.user_id
       flash[:notice] = "You don't have permission to view that page!"
       redirect_to current_user
       return
@@ -160,9 +160,22 @@ class PurchasesController < ApplicationController
 
   def facebook_post_confirm
     @purchase = Purchase.find(params[:id])
+    if @purchase.payments.size != 0
+      flash[:notice] = "A facebook post has already been sent out!"
+      redirect_to @purchase
+      return
+
+    end
   end
 
   def close
+    # Prevents unauthorized access by other users
+    if current_user.id != @purchase.user_id
+      flash[:notice] = "You don't have permission to view that page!"
+      redirect_to current_user
+      return
+    end
+
     #set state to closed
     @purchase.state = 3
     if @purchase.save
@@ -174,6 +187,12 @@ class PurchasesController < ApplicationController
   end
 
   def finalize
+    # Prevents unauthorized access by other users
+    if current_user.id != @purchase.user_id
+      flash[:notice] = "You don't have permission to view that page!"
+      redirect_to current_user
+      return
+    end
   end
 
   private
