@@ -1,4 +1,5 @@
 $('#layout_body').prepend('<div id="fb-root"></div>')
+alert("hello");
 $(function() {
   $.ajaxSetup({ cache: true });
   $.getScript('//connect.facebook.net/en_US/all.js', function(){
@@ -25,8 +26,9 @@ $(function() {
     if (confirmation_page_id && group_id && confirmation_page_token) {
       message = "Hey guys!  Join my payment on GroupBuy!";
       link = "http://combuyne.herokuapp.com/purchases/"+confirmation_page_id.value;
-      FB.api('/'+group_id.value+'/feed', 'post', {access_token: confirmation_page_token.value, link: link, message: message}, function (callback) {
-        alert(callback.id);
+      alert("posting to fb");
+      FB.api('/'+group_id.value+'/feed', 'post', {access_token: confirmation_page_token.value, link: link, message: message}, function (response) {
+        alert(response.id);
       });
     }
   });
