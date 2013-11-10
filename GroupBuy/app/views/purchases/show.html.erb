@@ -85,7 +85,7 @@
     <%= button_to "Close Purchase", close_purchase_path(@purchase) %>
   <% elsif @purchase.is_closed? %>
     <hr>
-    <%= btn_to "Finalize", finalize_purchase_path(@purchase) %>
+    <%= button_to "Finalize", finalize_purchase_path(@purchase) %>
   <% end %>
 <% end %>
 
