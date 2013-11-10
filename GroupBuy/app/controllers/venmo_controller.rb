@@ -21,6 +21,22 @@ class VenmoController < ApplicationController
     end
   end
   
+  def valid_token(venmo)
+    if venmo.updated_at < ago(2592000)    # 30 days
+      url = URI.parse("https://api.venmo.com/oauth/access_token")
+      post_args = {
+        'client_id' => ::VENMO_CLIENT_ID,
+        'code' => venmo.refresh_code,
+        'client_secret' => ::VENMO_CLIENT_SECRET
+      }
+      resp = Net::HTTP.post_form(url, post_args)
+      venmo.token = ActiveSupport::JSON.decode(resp.body)['access_token']
+      venmo.refresh_code = ActiveSupport::JSON.decode(resp.body)['refresh_code']
+    end
+    
+    return venmo.token
+  end
+  
   public
   def authenticate
     session[:return_to] ||= request.referer
@@ -33,9 +49,21 @@ class VenmoController < ApplicationController
   
   def save
     if not params[:error]
-      current_user.venmo_code = params[:code]
-      current_user.venmo_username = get_server_response(params[:code])['user']['username']
-      current_user.save
+      if !current_user.venmo.blank?
+        current_user.venmo.destroy
+      end
+      resp = get_server_response(params[:code])
+      venmo = Venmo.new(
+                  username: resp['user']['username'],
+                  venmo_id: resp['user']['id'],
+                  token: resp['access_token'],
+                  refresh_code: resp['refresh_token']
+      )
+      current_user.venmo = venmo
+      if !current_user.save
+        redirect_to session.delete(:return_to), notice: "Problem associating account. Try again."
+        return
+      end
       
       redirect_to session.delete(:return_to), notice: "Authentication successful."
     else
@@ -47,12 +75,12 @@ class VenmoController < ApplicationController
     purchase = Purchase.find_by_id(params[:purchase_id])
     
     url = URI.parse("https://api.venmo.com/payments")
-    token = get_server_response(current_user.venmo_code)['access_token']
     errors = 0
     for payment in purchase.payments
+      next if payment.user_id == current_user.id        #Skip if yourself
       post_args = {
-        'access_token' => token,
-        'user_id' => get_server_response(User.find_by_id(payment.user_id).venmo_code)['user']['id'],
+        'access_token' => valid_token(current_user.venmo),
+        'user_id' => User.find_by_id(payment.user_id).venmo.user_id,
         'note' => "#{current_user.venmo_username} has charged you for #{purchase.title}",
         'amount' => '%.2f' % (1.0 * payment.price / purchase.current_total_price),
         'audience' => 'private'
@@ -63,8 +91,8 @@ class VenmoController < ApplicationController
         errors += 1
       end
     end
-    if errors
-      redirect_to root_url, notice: "Confirmation successful, with #{errors} errors..."
+    if errors.nil?
+      redirect_to root_url, notice: "Confirmation complete, with #{errors} errors..."
     else
       redirect_to root_url, notice: "Confirmation successful!"
     end
