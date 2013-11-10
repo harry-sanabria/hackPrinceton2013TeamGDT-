@@ -14,28 +14,6 @@
         <br>     
         <strong>Your payment description:</strong>
         <%= @purchase.get_current_user_payment(current_user).description %>
-        <br>      
-        <strong>All contributors to this purchase:</strong>
-        <center>
-          <table border="1">
-            <thead>
-              <tr>
-                <th>User</th>
-                <th>Payment</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              <% @purchase.payments.each do |payment| %>
-
-              <tr>
-                <td><%= User.find(payment.user_id).name %></td>
-                <td><%= dollars(payment.price) %></td>
-              </tr>
-              <% end %>
-            </tbody>
-          </table>
-        </center>
         <br>
         <% if @purchase.is_accepting_payments? %>
           <%= button_to "Edit Contribution", purchase_edit_payment_path(@purchase.id), :method=>:get, :class=>"btn btn-primary" %>

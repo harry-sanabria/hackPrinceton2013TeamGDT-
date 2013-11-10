@@ -20,6 +20,29 @@
       <br>
       <strong>Deadline: </strong><br>
       <%= @purchase.deadline %>
+      <br>
+      <strong>Current contributors: </strong>
+        <center>
+          <table border="1">
+            <thead>
+              <tr>
+                <th>User</th>
+                <th>Payment</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <% @purchase.payments.each do |payment| %>
+
+              <tr>
+                <td><%= User.find(payment.user_id).name %></td>
+                <td><%= dollars(payment.price) %></td>
+              </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </center>
+ 
       
       <hr>
 
