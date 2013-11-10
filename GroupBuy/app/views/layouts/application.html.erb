@@ -20,13 +20,12 @@
 					<div class="nav-collapse collapse">
 						<ul class="nav nav-pills pull-right ">
 							<% if current_user %>
-                                                        <li>
+                            <li>
 								<img src=<%= current_user.image_url %> />
-							</li>
-
-							<li>
+							</li><li>
+								<p class="navbar-text">|</p>
+							</li><li>
 								<p class="navbar-text">
-
 									<%= link_to current_user.name, current_user, :class=>"navbar-link" %>
 								</p>
 							</li>
