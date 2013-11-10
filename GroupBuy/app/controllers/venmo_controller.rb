@@ -51,7 +51,6 @@ class VenmoController < ApplicationController
     if not params[:error]
       if !current_user.venmo.blank?
         current_user.venmo.destroy
-        raise "RAWR"
       end
       resp = get_server_response(params[:code])
       venmo = Venmo.new(
