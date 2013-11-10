@@ -15,7 +15,7 @@ class VenmoController < ApplicationController
     response = ActiveSupport::JSON.decode(resp.body)
     
     if not response['error'].blank?
-      raise "Problem exchanging access code (#{code}) with token. #{response['error']['errors']}"
+      puts "ERROR: Problem exchanging access code (#{code}) with token. #{response['error']['errors']}"
     else
       return response
     end
@@ -23,15 +23,9 @@ class VenmoController < ApplicationController
   
   def valid_token(venmo)
     if Time.now - venmo.updated_at > 30.days
-      url = URI.parse("https://api.venmo.com/oauth/access_token")
-      post_args = {
-        'client_id' => ::VENMO_CLIENT_ID,
-        'code' => venmo.refresh_code,
-        'client_secret' => ::VENMO_CLIENT_SECRET
-      }
-      resp = Net::HTTP.post_form(url, post_args)
-      venmo.token = ActiveSupport::JSON.decode(resp.body)['access_token']
-      venmo.refresh_code = ActiveSupport::JSON.decode(resp.body)['refresh_code']
+      response = get_server_response(venmo.refresh_code)
+      venmo.token = response['access_token']
+      venmo.refresh_code = response['refresh_token']
     end
     
     return venmo.token
@@ -90,15 +84,15 @@ class VenmoController < ApplicationController
       post_args = {
         'access_token' => valid_token(current_user.venmo),
         'user_id' => User.find_by_id(payment.user_id).venmo.user_id,
-        'note' => "From #{current_user.venmo.username} for purchase: #{purchase.title}.  Pickup info: #{params[:pickup_details]}",
+        'note' => "From #{current_user.venmo.username} for purchase: #{purchase.title}. Pickup info: #{params[:pickup_details]}",
         'amount' => dollars(1.0 * payment.price / params[:final_price].to_f),
         'audience' => 'private'
       }
       
       resp = Net::HTTP.post_form(url, post_args)
-      if not resp.body['error'].blank?
-        puts 'Wait a second.'
-        puts '---------------------',resp.body['message'],'------------------------'
+      response = ActiveSupport::JSON.decode(resp.body) 
+      if not response['error'].blank?
+        puts "ERROR: Problem charging #{User.find_by_id(payment.user_id).venmo.username}. #{response['error']['errors']}"
         errors += 1
       end
     end
