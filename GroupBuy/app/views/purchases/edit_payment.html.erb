@@ -1,4 +1,4 @@
-<h1><%= "Editing payment for purchase " + @purchase.title %></h1>
+<h1><%= "Editing payment for purchase #{@purchase.title}" %></h1>
 
 <h2>Edit your payment:</h2>
 <%= form_for(@purchase) do |f| %>
@@ -16,11 +16,11 @@
   
   <p>
     <strong>Minimum price: </strong>
-    <%= "dollars(@purchase.min_price)" %><br>
+    <%= dollars(@purchase.min_price) %><br>
     <strong>Current total price: </strong>
-    <%= "dollars(@purchase.current_total_price)" %><br>
+    <%= dollars(@purchase.current_total_price) %><br>
     <strong>Price remaining: </strong>
-    <%= "dollars(@purchase.get_remaining_price())" %>
+    <%= dollars(@purchase.get_remaining_price()) %>
   </p>
 
   <div class="field">
@@ -37,3 +37,6 @@
   </div>
 
 <% end %>
+
+<%= link_to 'Back', @purchase %> |
+<%= link_to 'My Payments', purchases_path %>

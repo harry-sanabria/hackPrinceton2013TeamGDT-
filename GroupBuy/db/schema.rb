@@ -27,11 +27,11 @@ ActiveRecord::Schema.define(version: 20131110025413) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "description"
-    t.text     "deadline"
     t.decimal  "min_price"
     t.decimal  "current_total_price"
     t.integer  "user_id"
     t.string   "group"
+    t.text     "deadline"
     t.integer  "state"
   end
 
@@ -44,8 +44,7 @@ ActiveRecord::Schema.define(version: 20131110025413) do
     t.string   "provider"
     t.string   "uid"
     t.datetime "oauth_expires_at"
-    t.string   "venmo_code"
-    t.string   "venmo_username"
+    t.integer  "venmo_id"
     t.string   "image_url"
   end
 

@@ -92,7 +92,7 @@ class VenmoController < ApplicationController
       end
     end
     if errors.nil?
-      redirect_to root_url, notice: "Confirmation complete, with #{errors} errors..."
+      redirect_to root_url, notice: "Confirmation complete, with #{pluralize(errors, "error")}..."
     else
       redirect_to root_url, notice: "Confirmation successful!"
     end
