@@ -53,7 +53,7 @@ class PurchasesController < ApplicationController
     @purchase.state = 1
     @purchase.current_total_price = 0
     @purchase.user_id = current_user.id
-    @purchase.group = params[:group_select]
+    @purchase.group = params["selected_group_name"]
 
     respond_to do |format|
       if @purchase.save
