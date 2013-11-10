@@ -35,9 +35,9 @@
 	<%= @purchase.deadline %>
 </p>
 
-<% if !current_user.payments.where(:purchase_id => @purchase.id).any? %>
+<% if !current_user.payments.where(:purchase_id => @purchase.id).any? && @purchase.is_accepting_payments?%>
   <%= render "join" %>
-<% else %>
+<% else if current_user.payments.where(:purchase_id => @purchase.id).any? %>
 
   <h2>Contributors</h2>
   <p>
@@ -49,7 +49,12 @@
     <strong>Your payment description:</strong>
     <%= @purchase.get_current_user_payment(current_user).description %>
   </p>
-
+  <% if @purchase.is_accepting_payments? %>
+    <%= link_to "Edit how much you pay", purchase_edit_payment_path(@purchase) %>
+  <% end %>
+  <p>
+    <strong>Other people in this purchase:</strong>
+  </p>
   <table border="1">
     <thead>
       <tr>
@@ -61,7 +66,7 @@
     <tbody>
       <% @purchase.payments.each do |payment| %>
       <tr>
-        <td><%= link_to User.find(payment.user_id).name, User.find(payment.user_id) %></td>
+        <td><%= User.find(payment.user_id).name %></td>
         <td><%= "$#{payment.price}" %></td>
       </tr>
       <% end %>
@@ -72,11 +77,17 @@
 
 <% if current_user.id == @purchase.user_id %>
   <hr>
-  <h3>Click here to stop collecting payments.</h3>
-  <% if not @purchase.is_confirmed? %>
-  	<%= link_to "Confirm Purchase", "/venmo/charge?purchase_id=#{@purchase.id}"%>
+  <% if @purchase.is_accepting_payments? %>
+        <%= link_to "Edit the details of this purchase", edit_purchase_path(@purchase) %>
+  <% end %>
+  <% if @purchase.is_minimum_met? %>
+        <p>Click here to close this purchase to new users.</p>
+        <%= btn_to "Close Purchase", close_purchase_path(@purchase) %>
+  <% elsif @purchase.is_closed? %>
+        <%= btn_to "Finalize", finalize_purchase_path(@purchase) %>
+  	<%= link_to "Finalize Purchase", "/venmo/charge?purchase_id=#{@purchase.id}"%>
   <% end %>
   <hr>
 <% end %>
 
-<%= link_to 'Back', root_path %>
+<%= link_to 'Back to purchases', purchases_path %>
