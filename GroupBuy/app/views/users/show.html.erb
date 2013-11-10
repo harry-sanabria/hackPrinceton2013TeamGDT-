@@ -1,20 +1,4 @@
-Hello, <%= @user.name %>
-<%= link_to 'Back', root_path %>
-<table border="1">
-	<thead>
-		<tr>
-			<th>Title</th><th>Cost</th><th>You owe</th>
-		</tr>
-	</thead>
+Hello, <%= @user.name %><br>
+<%= link_to 'View Purchases', purchases_path %>	
+<%= button_to "Create a New Purchase", new_purchase_path, :method=>:get,:class => "btn btn-primary"%>
 
-	<tbody>
-		<% current_user.purchases.each do |purchase| %>
-		<tr>
-			<td><%= link_to "#{purchase.title}", purchase %></td>
-			<td><%= "$#{purchase.min_price}" %></td>
-			<td><%= "$#{purchase.get_current_user_payment(current_user).price}" %></td>
-		</tr>
-		<% end %>
-	</tbody>
-</table>
-<%= link_to 'Create new purchase', new_purchase_path %>
