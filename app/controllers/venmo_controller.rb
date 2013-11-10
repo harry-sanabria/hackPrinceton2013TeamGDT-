@@ -87,11 +87,15 @@ class VenmoController < ApplicationController
     errors = 0
     for payment in purchase.payments
       next if payment.user_id == current_user.id        #Skip if yourself
+      puts ------------------------------------------
+      puts payment.price
+      puts params[:final_price]
+      puts ------------------------------------------
       post_args = {
         'access_token' => valid_token(current_user.venmo),
         'user_id' => User.find_by_id(payment.user_id).venmo.user_id,
         'note' => "From #{current_user.venmo.username} for purchase: #{purchase.title}.  Pickup info: #{params[:pickup_details]}",
-        'amount' => dollars(1.0 * payment.price / params[:final_price]),
+        'amount' => dollars(1.0 * payment.price / params[:final_price].to_f),
         'audience' => 'private'
       }
       
