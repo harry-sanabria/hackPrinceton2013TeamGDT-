@@ -6,9 +6,9 @@
       <br>
       <strong>Status: </strong><br>
       <% if not @purchase.is_accepting_payments? %>
-      	<span style="color: red;"> <%= get_status(@purchase.status) %> </span>
+      	<span style="color: red;"> <%= get_status(@purchase) %> </span>
       <% else %>
-      	<%= get_status(@purchase.status) %>
+      	<%= get_status(@purchase) %>
       <% end %>
       <br>
       <strong>Description: </strong><br>
