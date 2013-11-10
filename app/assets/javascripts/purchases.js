@@ -24,7 +24,7 @@ $(function() {
     confirmation_page_token = (document.getElementById("confirmation_page_token"));
     purchase_title = (document.getElementById("purchase_title"));
     if (confirmation_page_id && group_id && confirmation_page_token && purchase_title) {
-      var message = "Hey guys!  Join my purchase for "+purchase_title.value+" on comBUYne!"; 
+      var message = "Hey guys!  Join my purchase, '"+purchase_title.value+"' on comBUYne!"; 
       var link = "http://combuyne.herokuapp.com/purchases/"+confirmation_page_id.value;
       FB.api('/'+group_id.value+'/feed', 'post', {access_token: confirmation_page_token.value, link: link, message: message});
     }
