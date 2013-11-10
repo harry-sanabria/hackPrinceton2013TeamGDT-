@@ -45,6 +45,7 @@ class PurchasesController < ApplicationController
     @purchase = Purchase.new(purchase_params)
     @purchase.current_total_price = 0
     @purchase.user_id = current_user.id
+    @purchase.group = params[:purchase][:group_select]
 
     respond_to do |format|
       if @purchase.save
@@ -121,6 +122,10 @@ class PurchasesController < ApplicationController
      end
   end
 
+  def facebook_post_confirmed
+    @purchase = Purchase.find(params[:id])
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_purchase
@@ -128,6 +133,6 @@ class PurchasesController < ApplicationController
     end
 
     def purchase_params
-      params.require(:purchase).permit(:title, :min_price, :invited_group, :description, :deadline)
+      params.require(:purchase).permit(:title, :min_price, :description, :deadline)
     end
 end

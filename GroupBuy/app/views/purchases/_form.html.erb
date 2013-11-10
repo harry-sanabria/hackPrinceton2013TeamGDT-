@@ -35,11 +35,10 @@
     <input type="hidden", id="facebook_token", value=<%=current_user.oauth_token%>>
   </div>
   <div class="field">
-    <select id="group_select">
-    </select>
+    <%= select_tag "group_select", :required => true%>
   </div>
 
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit :id => "new_purchase_submit"%>
   </div>
 <% end %>
