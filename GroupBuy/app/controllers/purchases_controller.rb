@@ -69,7 +69,14 @@ class PurchasesController < ApplicationController
     end
     respond_to do |format|
       if @purchase.update(purchase_params)
-        @purchase.get_current_user_payment(current_user).update(:part => params[:user_parts])
+        puts "ALKFSDF ==================" + params[:payment_price].to_s()
+        @purchase.get_current_user_payment(current_user).update(
+          :price => params[:payment_price],
+          :description => params[:payment_description])
+
+        # update current total price for this payment
+        @purchase.update_current_total_price()
+
         format.html { redirect_to @purchase, notice: 'Purchase was successfully updated.' }
         format.json { head :no_content }
       else
@@ -114,7 +121,7 @@ class PurchasesController < ApplicationController
       payment.save
 
       # update current total price for this payment
-      @purchase.update_current_total_price(payment)
+      @purchase.update_current_total_price()
 
       format.html { redirect_to @purchase, notice: 'Successfully joined purchase!' }
       format.json { render action: 'show', status: :created, location: @purchase }

@@ -1,108 +1,64 @@
-<!--created by Harry (sanabria@mit.edu)-->
 <h1><%= "Editing purchase " + @purchase.title %></h1>
 
-<% if current_user.id == @purchase.user_id%>
+<%= form_for(@purchase) do |f| %>
+  <% if @purchase.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@purchase.errors.count, "error") %> prohibited this purchase from being saved:</h2>
 
-  <%= form_for(@purchase) do |f| %>
-    <% if @purchase.errors.any? %>
-      <div id="error_explanation">
-        <h2><%= pluralize(@purchase.errors.count, "error") %> prohibited this purchase from being saved:</h2>
+      <ul>
+      <% @purchase.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
 
-        <ul>
-        <% @purchase.errors.full_messages.each do |msg| %>
-          <li><%= msg %></li>
-        <% end %>
-        </ul>
-      </div>
-    <% end %>
-
-  <p>
-    <strong>Purchase:</strong>
-    <%= @purchase.title %>
-  </p>
-  <div class="field">
-    <%=f.label "New title" %><br>
-    <%=f.number_field :title , :min => 0 %>
-  </div>
-
-  <p>
-    <strong>Description:</strong>
-    <%= @purchase.description %>
-  </p>
-  <div class="field">
-    <%= f.label "New description" %><br>
-    <%= f.text_field :description %>
-  </div>
-
-  <p>
-    <strong>Minimum price:</strong>
-    <%= "$#{@purchase.min_price}" %>
-  </p>
-  <div class="field">
-    <%= f.label "New minimum price" %><br>
-    <%= f.number_field :min_price, :min => 0 %>
-  </div>
-
-  <p>
-    <strong>Deadline:</strong>
-    <%= "$#{@purchase.deadline}" %>
-  </p>
-  <div class="field">
-    <%= f.label "New deadline" %><br>
-    <%= f.text_field :deadline %>
-  </div>
-
-  <p>
-    <strong>Current total price:</strong>
-    <%= "$#{@purchase.current_total_price}" %>
-  </p>
-
-  <p>
-    <strong>Price remaining:</strong>
-    <%= "$#{@purchase.get_remaining_price()}" %>
-  </p>
+  <% if current_user.id == @purchase.user_id%>
+    <h2>Edit this purchase:</h2>
+    <div class="field">
+      <%= f.label :title %><br>
+      <%= f.text_field :title %>
+    </div>
+    <div class="field">
+      <%= f.label :description %><br>
+      <%= f.text_field :description %>
+    </div>
+    <div class="field">
+      <strong>Current total price:</strong>
+      <%= "$#{@purchase.current_total_price}" %><br>
+      <strong>Price remaining:</strong>
+      <%= "$#{@purchase.get_remaining_price()}" %><br>
+      <%= f.label :min_price %><br>
+      <%= f.number_field :min_price, :min => 0 %>
+    </div>
+    <div class="field">
+      <%= f.label :deadline %><br>
+      <%= f.text_field :deadline %>
+    </div>  
 
   <% end %>
 
-<% end %>
-
-  <h2>Current purchase settings</h2>
+  <h2>Edit your payment:</h2>
   <p>
     <strong>Minimum price:</strong>
-    <%= "$#{@purchase.min_price}" %>
-  </p>
-
-  <p>
+    <%= "$#{@purchase.min_price}" %><br>
     <strong>Current total price:</strong>
-    <%= "$#{@purchase.current_total_price}" %>
-  </p>
-
-  <p>
+    <%= "$#{@purchase.current_total_price}" %><br>
     <strong>Price remaining:</strong>
     <%= "$#{@purchase.get_remaining_price()}" %>
-  </p>
-
-  <p>
-    <strong>You currently owe:</strong>
-    <%= "$#{@purchase.get_current_user_payment(current_user).price}" %>
-  </p>
-
-  <p>
-    <strong>Your current payment description:</strong>
-    <%= "$#{@purchase.description}" %>
   </p>
 
   <div class="field">
     <%= label_tag "Price" %><br>
-    <%= number_field_tag "price", :min => 0 %>
+    <%= number_field_tag "payment_price", @purchase.get_current_user_payment(current_user).price, :min => 0 %>
   </div>
   <div class="field">
     <%= label_tag "Description" %><br>
-    <%= text_field_tag "description" %>
-  </div>>
-
+    <%= text_field_tag "payment_description", @purchase.get_current_user_payment(current_user).description %>
+  </div>
+  <br>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit "Update"%>
   </div>
 
   </div>
