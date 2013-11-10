@@ -55,11 +55,15 @@ class Purchase < ActiveRecord::Base
     return self.state == MINIMUM_MET
   end
   
-  def is_confirmed?
+  def is_closed?
     return self.state == CONFIRMED
   end
   
-  def is_charged?
+  def is_finalized?
     return self.state == CHARGED
+  end
+  
+  def is_accepting_payments?
+    return self.is_minimum_met? || self.is_minimum_not_met?
   end
 end

@@ -1,74 +1,43 @@
 <% provide(:title, 'Purchase') %>
 
-<h1><%= @purchase.title %></hi><br>
-
-<% if !current_user.payments.where(:purchase_id => @purchase.id).any? %>
-  <h1>Join this purchase!</h1>
-
-  <%= form_for(@purchase, :method => :put, :url => join_purchase_path(@purchase)) do |f| %>
-    <% if @purchase.errors.any? %>
-      <div id="error_explanation">
-        <h2><%= pluralize(@purchase.errors.count, "error") %> prohibited this purchase from being saved:</h2>
-
-        <ul>
-        <% @purchase.errors.full_messages.each do |msg| %>
-          <li><%= msg %></li>
-        <% end %>
-        </ul>
-      </div>
-    <% end %>
-
-    <div class="field">
-      <%= label_tag "Price" %><br>
-      <%= number_field_tag "price", :min => 0 %>
-    </div>
-    <div class="field">
-      <%= label_tag "Description" %><br>
-      <%= text_field_tag "description" %>
-    </div>
-
-    <div class="actions">
-      <%= f.submit %>
-    </div>
-  <% end %>
-
-<% else %>
-  <%= link_to 'Edit how much you pay', edit_purchase_path(@purchase) %> <br>
-
-  <p>
-  	<strong>Purchase:</strong>
+<p>
+	<strong>Title: </strong>
   	<%= @purchase.title %>
-  </p>
+</p>
 
-  <p>
-    <strong>Description:</strong>
-    <%= @purchase.description %>
-  </p>
+<p>
+	<strong>Description: </strong>
+	<%= @purchase.description %>
+</p>
 
-  <p>
-    <strong>Shared with:</strong>
-    <%= @purchase.group %>
-  </p>
+<p>
+	<strong>Shared with: </strong>
+	<%= @purchase.group %>
+</p>
 
-  <p>
-  	<strong>Minimum price:</strong>
-  	<%= "$#{@purchase.min_price}" %>
-  </p>
+<p>
+	<strong>Minimum price: </strong>
+	<%= "$#{@purchase.min_price}" %>
+</p>
 
-  <p>
-    <strong>Current total price:</strong>
-    <%= "$#{@purchase.current_total_price}" %>
-  </p>
+<p>
+	<strong>Current total price: </strong>
+	<%= "$#{@purchase.current_total_price}" %>
+</p>
 
-  <p>
-    <strong>Price remaining:</strong>
-    <%= "$#{@purchase.get_remaining_price()}" %>
-  </p>
+<p>
+	<strong>Price remaining: </strong>
+	<%= "$#{@purchase.get_remaining_price()}" %>
+</p>
 
-  <p>
-    <strong>Deadline:</strong>
-    <%= @purchase.deadline %>
-  </p>
+<p>
+	<strong>Deadline: </strong>
+	<%= @purchase.deadline %>
+</p>
+
+<% if !current_user.payments.where(:purchase_id => @purchase.id).any? && @purchase.is_accepting_payments?%>
+  <%= render "join" %>
+<% else if current_user.payments.where(:purchase_id => @purchase.id).any? %>
 
   <h2>Contributors</h2>
   <p>
@@ -80,7 +49,12 @@
     <strong>Your payment description:</strong>
     <%= @purchase.get_current_user_payment(current_user).description %>
   </p>
-
+  <% if @purchase.is_accepting_payments? %>
+    <%= link_to "Edit how much you pay", purchase_edit_payment_path(@purchase) %>
+  <% end %>
+  <p>
+    <strong>Other people in this purchase:</strong>
+  </p>
   <table border="1">
     <thead>
       <tr>
@@ -92,7 +66,7 @@
     <tbody>
       <% @purchase.payments.each do |payment| %>
       <tr>
-        <td><%= link_to User.find(payment.user_id).name, User.find(payment.user_id) %></td>
+        <td><%= User.find(payment.user_id).name %></td>
         <td><%= "$#{payment.price}" %></td>
       </tr>
       <% end %>
@@ -103,11 +77,17 @@
 
 <% if current_user.id == @purchase.user_id %>
   <hr>
-  <h3>Click here to stop collecting payments.</h3>
-  <% if not @purchase.is_confirmed? %>
-  	<%= link_to "Confirm Purchase", "/venmo/charge?purchase_id=#{@purchase.id}"%>
+  <% if @purchase.is_accepting_payments? %>
+        <%= link_to "Edit the details of this purchase", edit_purchase_path(@purchase) %>
+  <% end %>
+  <% if @purchase.is_minimum_met? %>
+        <p>Click here to close this purchase to new users.</p>
+        <%= btn_to "Close Purchase", close_purchase_path(@purchase) %>
+  <% elsif @purchase.is_closed? %>
+        <%= btn_to "Finalize", finalize_purchase_path(@purchase) %>
+  	<%= link_to "Finalize Purchase", "/venmo/charge?purchase_id=#{@purchase.id}"%>
   <% end %>
   <hr>
 <% end %>
 
-<%= link_to 'Back', root_path %>
+<%= link_to 'Back to purchases', purchases_path %>

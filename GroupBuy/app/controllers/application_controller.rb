@@ -7,11 +7,17 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
+  private
   helper_method :current_user
   # Sets the current_user variable
-  private
   def current_user
     @current_user ||= User.find_by_id(session[:user_id]) if session[:user_id]
+  end
+  
+  helper_method :dollars
+  # Formats given string to %.02f
+  def dollars(str)
+    "$%.2f" % str
   end
 
   # Checks to see if a user has logged in, if not, restrict access by redirecting
