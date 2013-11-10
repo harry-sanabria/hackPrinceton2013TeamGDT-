@@ -1,41 +1,89 @@
-<h1><%= "Editing payment for purchase #{@purchase.title}" %></h1>
+<div class="wrapper">
+  <div class="left">
+    <h1>Purchase Details</h1>
+    <div class="text">
+      <strong>Title: </strong><br>
+      <%= @purchase.title %>
+      <br>
+      <strong>Description: </strong><br>
+      <%= @purchase.description %>
+      <br>
+      <strong>Shared with: </strong><br>
+      <%= @purchase.group %>
+      <br>
+      <strong>Minimum price: </strong><br>
+      <%= dollars(@purchase.min_price) %>
+      <br>
+      <strong>Current total price: </strong><br>
+      <%= dollars(@purchase.current_total_price) %>
+      <br>
+      <strong>Price remaining: </strong><br>
+      <%= dollars(@purchase.get_remaining_price()) %>
+      <br>
+      <strong>Deadline: </strong><br>
+      <%= @purchase.deadline %>
+      
+      <hr>
 
-<h2>Edit your payment:</h2>
-<%= form_tag(purchase_edit_payment_submit_path(@purchase.id)) do %>
-  <% if @purchase.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@purchase.errors.count, "error") %> prohibited this purchase from being saved:</h2>
-
-      <ul>
-      <% @purchase.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
+      <% if current_user.id == @purchase.user_id %>
+        <% if @purchase.is_accepting_payments? %>
+          <%= button_to "Edit Purchase", edit_purchase_path(@purchase), :method=>:get, :class => "btn btn-primary" %>
+        <% end %>
+        <% if @purchase.is_minimum_met? %>
+          Close purchase to other users.
+          <%= button_to "Close Purchase", close_purchase_path(@purchase), :method=>:get, :class => "btn btn-primary" %>
+        <% elsif @purchase.is_closed? %>
+          <%= button_to "Finalize", finalize_purchase_path(@purchase), :method=>:get, :class => "btn btn-primary" %>
+        <% end %>
       <% end %>
-      </ul>
     </div>
-  <% end %>
-  
-  <p>
-    <strong>Minimum price: </strong>
-    <%= dollars(@purchase.min_price) %><br>
-    <strong>Current total price: </strong>
-    <%= dollars(@purchase.current_total_price) %><br>
-    <strong>Price remaining: </strong>
-    <%= dollars(@purchase.get_remaining_price()) %>
-  </p>
 
-  <div class="field">
-    <%= label_tag "Price" %><br>
-    <%= number_field_tag "payment_price", @purchase.get_current_user_payment(current_user).price, :min => 0 %>
-  </div>
-  <div class="field">
-    <%= label_tag "Description" %><br>
-    <%= text_field_tag "payment_description", @purchase.get_current_user_payment(current_user).description %>
-  </div>
-  <br>
-  <div class="actions">
-    <%= submit_tag("Update") %>
-  </div>
-<% end %>
 
-<%= link_to 'Back', @purchase %> |
-<%= link_to 'My Purchases', purchases_path %>
+  </div>
+
+  <div class="right">
+    <div class="text">
+      <h1><%= "Edit Your Contribution" %></h1>
+      <%= form_tag(purchase_edit_payment_submit_path(@purchase.id)) do %>
+        <% if @purchase.errors.any? %>
+          <div id="error_explanation">
+            <h2><%= pluralize(@purchase.errors.count, "error") %> prohibited this purchase from being saved:</h2>
+
+            <ul>
+            <% @purchase.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+            </ul>
+          </div>
+        <% end %>
+
+        <strong>Minimum price: </strong>
+        <%= dollars(@purchase.min_price) %><br>
+        <strong>Current total price: </strong>
+        <%= dollars(@purchase.current_total_price) %><br>
+        <strong>Price remaining: </strong>
+        <%= dollars(@purchase.get_remaining_price()) %>
+
+        <hr>
+
+        <div class="field">
+          <%= label_tag "Price" %>
+          <%= number_field_tag "payment_price", @purchase.get_current_user_payment(current_user).price, :min => 0 %>
+        </div>
+        <div class="field">
+          <%= label_tag "Description" %>
+          <%= text_field_tag "payment_description", @purchase.get_current_user_payment(current_user).description %>
+        </div>
+        <div class="actions">
+          <%= submit_tag("Update", :class => "btn btn-primary")  %>
+        </div>
+      <% end %>
+    </div>
+    <br>
+    <hr>
+    <div class="buttonwrapper">
+      <%= link_to 'Back', @purchase %> | <%= link_to 'My Purchases', purchases_path%>
+    </div>
+
+  </div>
+</div>
