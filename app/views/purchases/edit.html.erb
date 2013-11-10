@@ -1,47 +1,87 @@
-<h1><%= "Editing purchase #{@purchase.title}" %></h1>
+<div class="wrapper">
+  <div class="left">
+    <h1>Purchase Details</h1>
+    <div class="text">
+      <strong>Title: </strong><br>
+      <%= @purchase.title %>
+      <br>
+      <strong>Description: </strong><br>
+      <%= @purchase.description %>
+      <br>
+      <strong>Shared with: </strong><br>
+      <%= @purchase.group %>
+      <br>
+      <strong>Minimum price: </strong><br>
+      <%= dollars(@purchase.min_price) %>
+      <br>
+      <strong>Current total price: </strong><br>
+      <%= dollars(@purchase.current_total_price) %>
+      <br>Price remaining: </strong><br>
+      <%= dollars(@purchase.get_remaining_price()) %>
+      <br>
+      <strong>Deadline: </strong><br>
+      <%= @purchase.deadline %>
+      
+      <hr>
 
-<h2>Edit this purchase:</h2>
-<%= form_for(@purchase) do |f| %>
-  <% if @purchase.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@purchase.errors.count, "error") %> prohibited this purchase from being saved:</h2>
-
-      <ul>
-      <% @purchase.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
+      <% if current_user.id == @purchase.user_id %>
+        <% if @purchase.is_accepting_payments? %>
+          <%= button_to "Edit Purchase", edit_purchase_path(@purchase), :method=>:get, :class => "btn btn-primary" %>
+        <% end %>
+        <% if @purchase.is_minimum_met? %>
+          Close purchase to other users.
+          <%= button_to "Close Purchase", close_purchase_path(@purchase), :method=>:get, :class => "btn btn-primary" %>
+        <% elsif @purchase.is_closed? %>
+          <%= button_to "Finalize", finalize_purchase_path(@purchase), :method=>:get, :class => "btn btn-primary" %>
+        <% end %>
       <% end %>
-      </ul>
     </div>
-  <% end %>
 
-  <div class="field">
-    <%= f.label :title %><br>
-    <%= f.text_field :title %>
-  </div>
-  <div class="field">
-    <%= f.label :description %><br>
-    <%= f.text_area :description %>
-  </div>
-  <div class="field">
-    <strong>Current total price: </strong>
-    	<%= dollars(@purchase.current_total_price) %><br>
-    <strong>Price remaining: </strong>
-    	<%= dollars(@purchase.get_remaining_price()) %><br>
-    
-    <%= f.label :min_price %><br>
-    <%= f.number_field :min_price, :min => 0 %>
-  </div>
-  <div class="field">
-  	<%= f.label :deadline %><br>
-  	<%= f.text_field :deadline %>
-  </div>
-  
-  <br>
-  <div class="actions">
-    <%= f.submit "Update"%>
-  </div>
-  
-<% end %>
 
-<%= link_to 'Back', @purchase %> |
-<%= link_to 'My Purchases', purchases_path %>
+  </div>
+
+  <div class="right">
+    <div class="text">
+      <h1>Edit Purchase:</h1>
+      <%= form_for(@purchase) do |f| %>
+        <% if @purchase.errors.any? %>
+          <div id="error_explanation">
+            <h2><%= pluralize(@purchase.errors.count, "error") %> prohibited this purchase from being saved:</h2>
+
+            <ul>
+            <% @purchase.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+            </ul>
+          </div>
+        <% end %>
+
+        <div class="field">
+          <%= f.label :title %>
+          <%= f.text_field :title %>
+        </div>
+        <div class="field">
+          <%= f.label :description %>
+          <%= f.text_area :description %>
+        </div>
+        <div class="field">    
+          <%= f.label :min_price %>
+          <%= f.number_field :min_price, :min => 0 %>
+        </div>
+        <div class="field">
+        	<%= f.label :deadline %>
+        	<%= f.text_field :deadline %>
+        </div>
+        
+        <br>
+        <div class="actions">
+          <%= f.submit "Update", :class => "btn btn-primary"%>
+        </div>
+        
+      <% end %>
+
+      <%= link_to 'Back', @purchase %> |
+      <%= link_to 'My Purchases', purchases_path %>
+    </div>
+  </div>
+</div>
