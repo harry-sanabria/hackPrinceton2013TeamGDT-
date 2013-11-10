@@ -9,6 +9,7 @@ GroupBuy::Application.routes.draw do
   get "purchases/join_purchase/:id"  => "purchases#join_purchase"
   get "purchases/:id/confirm" => "purchases#facebook_post_confirm", :as => "purchase_confirm_post"
   get "purchases/:id/edit_payment", to: "purchases#edit_payment", :as => "purchase_edit_payment"
+  get "purchases/:id/edit_payment_submit", to: "purchases#update_payment", :as => "purchase_edit_payment_submit"
   get "purchases/:id/close", to: "purchases#close", :as => "close_purchase"
   get "purchases/:id/finalize", to: "purchases#finalize", :as => "finalize_purchase"
   

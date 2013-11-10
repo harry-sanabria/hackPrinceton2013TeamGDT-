@@ -1,7 +1,7 @@
 <h1><%= "Editing payment for purchase #{@purchase.title}" %></h1>
 
 <h2>Edit your payment:</h2>
-<%= form_for(@purchase) do |f| %>
+<%= form_tag(purchase_edit_payment_submit_path(@purchase.id)) %>
   <% if @purchase.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@purchase.errors.count, "error") %> prohibited this purchase from being saved:</h2>

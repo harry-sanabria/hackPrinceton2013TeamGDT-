@@ -77,10 +77,6 @@ class PurchasesController < ApplicationController
     end
     respond_to do |format|
       if @purchase.update(purchase_params)
-        @purchase.get_current_user_payment(current_user).update(
-          :price => params[:payment_price],
-          :description => params[:payment_description])
-
         # update current total price for this payment
         @purchase.update_current_total_price()
 
@@ -88,6 +84,30 @@ class PurchasesController < ApplicationController
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }
+        format.json { render json: @purchase.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+  
+  def update_payment
+    # Prevents unauthorized access by other users
+    if !current_user.payments.where(:purchase_id => params[:id]).any?
+      flash[:notice] = "You don't have permission to view that page!"
+      redirect_to current_user
+      return
+    end
+    @purchase = Purchase.find_by_id(params[:id])
+    respond_to do |format|
+      if @purchase.get_current_user_payment(current_user).update(
+          :price => params[:payment_price],
+          :description => params[:payment_description])
+        # update current total price for this payment
+        @purchase.update_current_total_price()
+
+        format.html { redirect_to @purchase, notice: 'Payment was successfully updated.' }
+        format.json { head :no_content }
+      else
+        format.html { render action: 'edit_payment' }
         format.json { render json: @purchase.errors, status: :unprocessable_entity }
       end
     end
