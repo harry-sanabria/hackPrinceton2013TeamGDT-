@@ -5,11 +5,7 @@
       <%= @purchase.title %>
       <br>
       <strong>Status: </strong><br>
-      <% if not @purchase.is_accepting_payments? %>
-      	<span style="color: red;"> <%= get_status(@purchase) %> </span>
-      <% else %>
-      	<%= get_status(@purchase) %>
-      <% end %>
+      <% get_status(@purchase) %>
       <br>
       <strong>Description: </strong><br>
       <%= @purchase.description %>
@@ -32,6 +28,7 @@
       <% @purchase.payments.each do |payment| %>
           <%= User.find(payment.user_id).name %><br>
       <% end %>
+      <br>
 
       <% if current_user.id == @purchase.user_id %>
         <% if @purchase.is_accepting_payments? %>
@@ -39,11 +36,10 @@
         <% end %>
         <% if @purchase.is_minimum_met? %>
           <hr>
-          Close purchase to other users.
           <%= button_to "Close Purchase", close_purchase_path(@purchase), :class => "btn btn-primary" %>
         <% elsif @purchase.is_closed? %>
           <hr>
-          <%= button_to "Finalize", finalize_purchase_path(@purchase), :class => "btn btn-primary" %>
+          <%= button_to "Begin Finalization", finalize_purchase_path(@purchase), :class => "btn btn-primary" %>
         <% end %>
       <% end %>
     </div>

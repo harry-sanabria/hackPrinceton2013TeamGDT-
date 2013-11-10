@@ -210,11 +210,11 @@ class PurchasesController < ApplicationController
       if purchase.is_minimum_not_met?
         return "Pending"
       elsif purchase.is_minimum_met?
-        return "Minimum Reached"
+        return "<span style='color:green'>Minimum Reached</span>"
       elsif purchase.is_closed?
-        return "Closed"
+        return "<span style='color:red'>Closed</span>"
       elsif purchase.is_finalized?
-        return "Complete"
+        return "<span style='color:blue'>Complete</span>"
       end
     end
 end
