@@ -25,4 +25,8 @@ $(function() {
       FB.api('/'+group_id.value+'/feed', 'post', {access_token: confirmation_page_token.value, link: link, message: message})
     }
   });
+
+  $("#group_select").change(function (eventObj) {
+    $("#selected_group_name").val($(this).find('option:selected').text());
+  });
 });
