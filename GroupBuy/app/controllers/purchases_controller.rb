@@ -29,7 +29,7 @@ class PurchasesController < ApplicationController
   # GET /purchases/1/edit
   def edit
     # Prevents unauthorized access by other users
-    if !current_user.purchases.where(:id => @purchase.id).any?
+    if !current_user.payments.where(:purchase_id => @purchase.id).any?
       flash[:notice] = "You don't have permission to view that page!"
       redirect_to current_user
       return
@@ -61,7 +61,7 @@ class PurchasesController < ApplicationController
   # PATCH/PUT /purchases/1.json
   def update
     # Prevents unauthorized access by other users
-    if !current_user.purchases.where(:id => @purchase.id).any?
+    if !current_user.payments.where(:purchase_id => @purchase.id).any?
       flash[:notice] = "You don't have permission to view that page!"
       redirect_to current_user
       return
@@ -130,11 +130,7 @@ class PurchasesController < ApplicationController
     @purchase = Purchase.find(params[:id])
   end
   
-  def edit_payment
-    
-  end
-  
-  def_close
+  def close
     
   end
 
