@@ -11,7 +11,7 @@ GroupBuy::Application.routes.draw do
   get "purchases/:id/edit_payment", to: "purchases#edit_payment", :as => "purchase_edit_payment"
   post "purchases/:id/close", to: "purchases#close", :as => "close_purchase"
   post "purchases/:id/finalize", to: "purchases#finalize", :as => "finalize_purchase"
-  get "purchases/:id/edit_payment_submit", to: "purchases#update_payment", :as => "purchase_edit_payment_submit"
+  post "purchases/:id/edit_payment_submit", to: "purchases#update_payment", :as => "purchase_edit_payment_submit"
   
   root :to => "sessions#new"
 
