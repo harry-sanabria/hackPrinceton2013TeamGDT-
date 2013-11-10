@@ -47,7 +47,7 @@
 
   <p>
     <strong>Shared with:</strong>
-    <%= "$#{@purchase.group}" %>
+    <%= @purchase.group %>
   </p>
 
   <p>
@@ -67,7 +67,7 @@
 
   <p>
     <strong>Deadline:</strong>
-    <%= "$#{@purchase.deadline}" %>
+    <%= @purchase.deadline %>
   </p>
 
   <p>
@@ -77,7 +77,7 @@
 
   <p>
     <strong>Your payment description:</strong>
-    <%= "$#{@purchase.get_current_user_payment(current_user).description}" %>
+    <%= @purchase.get_current_user_payment(current_user).description %>
   </p>
 
 <% end %>
@@ -86,4 +86,5 @@
   <h1>This is a magical link.</h1>
 
   <%= link_to "Confirm Purchase", "/venmo/charge?purchase_id=#{@purchase.id}"%>
+  <%= link_to 'Back', root_path %>
 <% end %>

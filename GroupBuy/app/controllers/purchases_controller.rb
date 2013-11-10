@@ -18,9 +18,7 @@ class PurchasesController < ApplicationController
     #   redirect_to current_user
     #   return
     # end
-    @users= @purchase.users
 
-    # Add user that has made it to the page
   end
 
   # GET /purchases/new
@@ -45,13 +43,12 @@ class PurchasesController < ApplicationController
     @purchase = Purchase.new(purchase_params)
     @purchase.current_total_price = 0
     @purchase.user_id = current_user.id
-    @purchase.group = params[:purchase][:group_select]
+    @purchase.group = params[:group_select]
 
     respond_to do |format|
       if @purchase.save
-        #puts "asgl;adskhfl;khgalds;khfsda;HIHIHIHIHIHIHIHIHI"
-        format.html { redirect_to @purchase, notice: 'Purchase was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @purchase }
+        format.html { redirect_to purchase_confirm_post_path(@purchase), notice: 'Purchase was successfully created.' }
+        format.json { render action: 'facebook_post_confirmed', status: :created, location: @purchase }
       else
         format.html { render action: 'new' }
         format.json { render json: @purchase.errors, status: :unprocessable_entity }
@@ -70,7 +67,14 @@ class PurchasesController < ApplicationController
     end
     respond_to do |format|
       if @purchase.update(purchase_params)
-        @purchase.get_current_user_payment(current_user).update(:part => params[:user_parts])
+        puts "ALKFSDF ==================" + params[:payment_price].to_s()
+        @purchase.get_current_user_payment(current_user).update(
+          :price => params[:payment_price],
+          :description => params[:payment_description])
+
+        # update current total price for this payment
+        @purchase.update_current_total_price()
+
         format.html { redirect_to @purchase, notice: 'Purchase was successfully updated.' }
         format.json { head :no_content }
       else
@@ -115,14 +119,14 @@ class PurchasesController < ApplicationController
       payment.save
 
       # update current total price for this payment
-      @purchase.update_current_total_price(payment)
+      @purchase.update_current_total_price()
 
       format.html { redirect_to @purchase, notice: 'Successfully joined purchase!' }
       format.json { render action: 'show', status: :created, location: @purchase }
      end
   end
 
-  def facebook_post_confirmed
+  def facebook_post_confirm
     @purchase = Purchase.find(params[:id])
   end
 
