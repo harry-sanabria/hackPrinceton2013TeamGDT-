@@ -67,6 +67,7 @@ class VenmoController < ApplicationController
   
   def charge    
     purchase = Purchase.find_by_id(params[:purchase_id])
+    final_price = params[:final_price].to_f
 
     # Prevents unauthorized access by other users
     if current_user.id != purchase.user_id
@@ -77,6 +78,7 @@ class VenmoController < ApplicationController
 
     purchase.state = 4
     purchase.save
+    
     url = URI.parse("https://api.venmo.com/payments")
     errors = 0
     for payment in purchase.payments
@@ -85,12 +87,14 @@ class VenmoController < ApplicationController
         'access_token' => valid_token(current_user.venmo),
         'user_id' => User.find_by_id(payment.user_id).venmo.user_id,
         'note' => "From #{current_user.venmo.username} for purchase: #{purchase.title}. Pickup info: #{params[:pickup_details]}",
-        'amount' => "%.2f" % (-1.0 * payment.price / params[:final_price].to_f),
+        'amount' => "%.2f" % (-1.0 * payment.price * purchase.current_total_price / final_price),
         'audience' => 'private'
       }
-      
       resp = Net::HTTP.post_form(url, post_args)
-      response = ActiveSupport::JSON.decode(resp.body) 
+      response = ActiveSupport::JSON.decode(resp.body)
+      
+      puts post_args
+      
       if not response['error'].blank?
         puts "ERROR: Problem charging #{User.find_by_id(payment.user_id).venmo.username}. #{response['error']['message']}"
         errors += 1
