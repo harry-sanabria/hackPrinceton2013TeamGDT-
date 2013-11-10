@@ -210,11 +210,24 @@ class PurchasesController < ApplicationController
       if purchase.is_minimum_not_met?
         return "Pending"
       elsif purchase.is_minimum_met?
-        return "<span style='color:green'>Minimum Reached</span>"
+        return "Minimum Reached"
       elsif purchase.is_closed?
-        return "<span style='color:red'>Closed</span>"
+        return "Closed"
       elsif purchase.is_finalized?
-        return "<span style='color:blue'>Complete</span>"
+        return "Complete"
+      end
+    end
+    
+    helper_method :get_status_color
+    def get_status(purchase)
+      if purchase.is_minimum_not_met?
+        return "black"
+      elsif purchase.is_minimum_met?
+        return "green"
+      elsif purchase.is_closed?
+        return "red"
+      elsif purchase.is_finalized?
+        return "blue"
       end
     end
 end

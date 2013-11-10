@@ -5,7 +5,9 @@
       <%= @purchase.title %>
       <br>
       <strong>Status: </strong><br>
-      <% get_status(@purchase) %>
+      <span style="color:<%= get_status_color(@purchase) %>">
+      	<%= get_status(@purchase) %>
+      </span>
       <br>
       <strong>Description: </strong><br>
       <%= @purchase.description %>

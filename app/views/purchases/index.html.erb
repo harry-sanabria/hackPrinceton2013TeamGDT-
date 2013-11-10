@@ -25,7 +25,9 @@
 			<td><%= link_to "#{purchase.title}", purchase %></td>
 			<td><%= dollars(purchase.min_price) %></td>
 			<td><%= dollars(purchase.current_total_price) %></td>
-			<td><%= get_status(purchase) %></td>
+			<td><span style="color:<%= get_status_color(@purchase) %>">
+      			<%= get_status(@purchase) %>
+      		</span></td>
 		</tr>
 		<% end %>
 	</tbody>
@@ -51,7 +53,9 @@
 			<td><%= dollars(purchase.min_price) %></td>
 			<td><%= dollars(payment.price) %></td>
 			<td><%= dollars(purchase.current_total_price) %></td>
-			<td><%= get_status(purchase) %></td>
+			<td><span style="color:<%= get_status_color(@purchase) %>">
+      			<%= get_status(@purchase) %>
+      		</span></td>
 		</tr>
 		<% end %>
 	</tbody>
