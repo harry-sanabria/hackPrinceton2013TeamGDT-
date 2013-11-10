@@ -10,14 +10,14 @@
 
 		<div class="navbar navbar-inverse">
 			<div class="navbar-inner">
-				<a href="#" id="site_name">comBUYne</a>
+				<a href=<%= root_url %> id="site_name">comBUYne</a>
 				<div id="navlist">
 					<ul>
 						<% if current_user %>
 
 						<!-- FACEBOOK LOGIN -->
 						<li>
-							<img src=<%= current_user.image_url %> width="80" height="80" style="border: 1px solid white;"/>
+							<img src=<%= current_user.image_url %> width="80" height="80" />
 						</li>
 						<li>
 							<%= link_to current_user.name, current_user, :class=>"navlist_link"%>
@@ -47,7 +47,7 @@
 
 						<% else %>
 						<li>
-							<%= link_to "Sign in with Facebook", "/auth/facebook", id: "sign_in" %>
+							<%= link_to "Sign in with Facebook", "/auth/facebook", :class=>"navlist_link" %>
 						</li>
 						<% end %>
 					</ul>
