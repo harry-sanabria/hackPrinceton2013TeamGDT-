@@ -1,6 +1,6 @@
 class Purchase < ActiveRecord::Base
   has_many :payments, dependent: :destroy
-  has_many :users, :through => :payments
+  belongs_to :user
   validates :title, presence: true
   validates :min_price, presence: true, :numericality => {:greater_than => 0}
   validates :current_total_price, presence: true, :numericality => {:greater_than_or_equal_to => 0}

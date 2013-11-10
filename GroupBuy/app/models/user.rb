@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
   validates_uniqueness_of :username
 
   has_many :payments, dependent: :destroy
-  has_many :purchases, :through => :payments
+  has_many :purchases
   has_one :venmo, dependent: :destroy
 
   def self.authenticate(auth)

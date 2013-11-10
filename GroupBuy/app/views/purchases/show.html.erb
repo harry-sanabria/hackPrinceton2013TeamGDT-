@@ -2,7 +2,7 @@
 
 <h1><%= @purchase.title %></hi><br>
 
-<% if !current_user.purchases.where(:id => @purchase.id).any? %>
+<% if !current_user.payments.where(:purchase_id => @purchase.id).any? %>
   <h1>Join this purchase!</h1>
 
   <%= form_for(@purchase, :method => :put, :url => join_purchase_path(@purchase)) do |f| %>
@@ -103,7 +103,7 @@
 
 <% if current_user.id == @purchase.user_id %>
   <hr>
-  <h3>This is a magical link.</h3>
+  <h3>Click here to stop collecting payments.</h3>
   <% if not @purchase.is_confirmed? %>
   	<%= link_to "Confirm Purchase", "/venmo/charge?purchase_id=#{@purchase.id}"%>
   <% end %>

@@ -1,6 +1,6 @@
 class Payment < ActiveRecord::Base
-  belongs_to:user
-  belongs_to:purchase
+  belongs_to :user
+  belongs_to :purchase
   validates :user_id, presence:true
   validates :purchase_id, presence:true
   validates :price, presence: true, :numericality => {:greater_than => 0}
