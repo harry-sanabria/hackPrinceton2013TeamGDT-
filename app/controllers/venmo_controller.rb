@@ -87,7 +87,7 @@ class VenmoController < ApplicationController
         'access_token' => valid_token(current_user.venmo),
         'user_id' => User.find_by_id(payment.user_id).venmo.venmo_id,
         'note' => "From #{current_user.venmo.username} for purchase: #{purchase.title}. Pickup info: #{params[:pickup_details]}",
-        'amount' => "%.2f" % (-1.0 * payment.price * purchase.current_total_price / final_price),
+        'amount' => "%.2f" % (-1.0 * payment.price * final_price / purchase.current_total_price),
         'audience' => 'private'
       }
       resp = Net::HTTP.post_form(url, post_args)
