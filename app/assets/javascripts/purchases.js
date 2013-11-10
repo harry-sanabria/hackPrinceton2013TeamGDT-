@@ -27,7 +27,7 @@ $(function() {
       message = "Hey guys!  Join my payment on GroupBuy!";
       link = "http://combuyne.herokuapp.com/purchases/"+confirmation_page_id.value;
       FB.api('/'+group_id.value+'/feed', 'post', {access_token: confirmation_page_token.value, link: link, message: message}, function (response) {
-        console.log(">>>>>>>>>>>>>>>>>>>>>>>");
+        console.log(">>>>>>>>>>>>>>>>>>>>>>>LALALALALALALALALALALALALALA");
         console.log(response.id);
       });
     }
